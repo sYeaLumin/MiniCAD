@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MiniCAD.cpp" />
+    <ClCompile Include="MiniCADWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MiniCAD.h" />
@@ -124,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MiniCAD.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MiniCADWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
