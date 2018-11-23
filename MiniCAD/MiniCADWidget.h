@@ -6,12 +6,13 @@
 class MiniCADWidget :
 	public QOpenGLWidget, protected QOpenGLFunctions
 {
+	Q_OBJECT
+
 public:
-	MiniCADWidget();
+	MiniCADWidget(QWidget *parent = nullptr);//QWidget *parent£¿
 	~MiniCADWidget();
 
 protected:
-	// ============== virtual function inherited form QOpenGLWidget ================
 	void initializeGL() override;
 	void paintGL() override;
 	void resizeGL(int width, int height) override;

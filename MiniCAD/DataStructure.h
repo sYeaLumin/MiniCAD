@@ -1,6 +1,6 @@
 #pragma once
-
 #include<memory>
+#define MINERROR 10e-6
 using namespace std;
 
 namespace CAD{
@@ -11,17 +11,25 @@ namespace CAD{
 	class Edge;
 	class Vertex;
 
+	class Compare {
+	public:
+		static bool vv(const Point& p1, const Point& p2);
+	};
+
 	class Solid {
 	public:
 		int sID;
 		shared_ptr<Face> sFaces;
 		shared_ptr<Edge> sEdges;
 		shared_ptr<Vertex> sVertexs;
-		shared_ptr<Solid> sPrev;
-		shared_ptr<Solid> sNext;
+		shared_ptr<Solid> prev;
+		shared_ptr<Solid> next;
 
 		Solid();
-		~Solid();
+		shared_ptr<Vertex> findV(const Point p);
+		bool addF(shared_ptr<Face>& face);
+		bool addE(shared_ptr<Edge>& edge);
+		bool addV(shared_ptr<Vertex>& vertex);
 	};
 
 	class Face {
@@ -30,11 +38,11 @@ namespace CAD{
 		//double fNormal[3];
 		weak_ptr<Solid> fSolid;
 		shared_ptr<Loop> fLoops;
-		shared_ptr<Face> fPrev;
-		shared_ptr<Face> fNext;
+		shared_ptr<Face> prev;
+		shared_ptr<Face> next;
 
 		Face();
-		~Face();
+		bool addL(shared_ptr<Loop>& lp);
 	};
 
 	class Loop {
@@ -42,11 +50,12 @@ namespace CAD{
 		int lID;
 		weak_ptr<Face> lFace;
 		shared_ptr<HalfEdge> lHalfEdges;
-		shared_ptr<Loop> lPrev;
-		shared_ptr<Loop> lNext;
+		shared_ptr<Loop> prev;
+		shared_ptr<Loop> next;
 
 		Loop();
-		~Loop();
+		shared_ptr<HalfEdge> findHE(const shared_ptr<Vertex> & v);
+		bool addHE(shared_ptr<HalfEdge>& he);
 	};
 
 	class HalfEdge {
@@ -55,12 +64,11 @@ namespace CAD{
 		weak_ptr<Loop> heLoop;
 		weak_ptr<Edge> heEdge;
 		shared_ptr<Vertex> startVertex;
-		shared_ptr<HalfEdge> hePrev;
-		shared_ptr<HalfEdge> heNext;
-		shared_ptr<HalfEdge> heAdj;
+		shared_ptr<HalfEdge> prev;
+		shared_ptr<HalfEdge> next;
+		shared_ptr<HalfEdge> adj;
 
 		HalfEdge();
-		~HalfEdge();
 	};
 
 	class Edge {
@@ -68,21 +76,50 @@ namespace CAD{
 		int eID;
 		shared_ptr<HalfEdge> leftHE;
 		shared_ptr<HalfEdge> rightHE;
-		shared_ptr<Edge> ePrev;
-		shared_ptr<Edge> eNext;
+		shared_ptr<Edge> prev;
+		shared_ptr<Edge> next;
 
 		Edge();
-		~Edge();
 	};
 
 	class Vertex {
 	public:
 		int vID;
-		double pos[3];
-		shared_ptr<Vertex> vPrev;
-		shared_ptr<Vertex> vNext;
+		Point p;
+		shared_ptr<Vertex> prev;
+		shared_ptr<Vertex> next;
 
-		Vertex();
-		~Vertex();
+		Vertex(const Point point) :p(point) {
+			static int id = 0;
+			vID = id++;
+		}
+	};
+
+	class Point {
+	public:
+		double pos[3];
+		Point() {}
+		Point(double x, double y, double z) {
+			pos[0] = x;
+			pos[1] = y;
+			pos[2] = z;
+		}
+		Point(const Point &point) {
+			pos[0] = point.pos[0];
+			pos[1] = point.pos[1];
+			pos[2] = point.pos[2];
+		}
+		Point& operator=(const Point point) {
+			pos[0] = point.pos[0];
+			pos[1] = point.pos[1];
+			pos[2] = point.pos[2];
+			return *this;
+		}
+		Point& operator*(const double d) {
+			return Point(pos[0] * d, pos[1] * d, pos[2] * d);
+		}
+		Point& operator+(const Point point) {
+			return Point(pos[0] + point.pos[0], pos[1] + point.pos[1], pos[2] + point.pos[2]);
+		}
 	};
 }

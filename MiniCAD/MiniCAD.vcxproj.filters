@@ -39,6 +39,12 @@
     <ClCompile Include="MiniCADWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DataStructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EulerOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MiniCAD.h">
@@ -57,6 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniCADWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EulerOperator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

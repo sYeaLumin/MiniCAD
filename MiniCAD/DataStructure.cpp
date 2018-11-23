@@ -1,4 +1,5 @@
 #include "DataStructure.h"
+using namespace CAD;
 
 CAD::Solid::Solid()
 {
@@ -6,8 +7,61 @@ CAD::Solid::Solid()
 	sID = id++;
 }
 
-CAD::Solid::~Solid()
+shared_ptr<Vertex> CAD::Solid::findV(const Point p)
 {
+	shared_ptr<Vertex> tmp = sVertexs;
+	for (; tmp; tmp = tmp->next)
+		if (Compare::vv(tmp->p, p))
+			return tmp;
+	return nullptr;
+}
+
+bool CAD::Solid::addF(shared_ptr<Face>& face)
+{
+	if (!face)
+		return false;
+	if (!sFaces)
+		sFaces = face;
+	else {
+		shared_ptr<Face> tmp = sFaces;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = face;
+		face->prev = tmp;
+	}
+	return true;
+}
+
+bool CAD::Solid::addE(shared_ptr<Edge>& edge)
+{
+	if (!edge)
+		return false;
+	if (!sEdges)
+		sEdges = edge;
+	else {
+		shared_ptr<Edge> tmp = sEdges;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = edge;
+		edge->prev = tmp;
+	}
+	return true;
+}
+
+bool CAD::Solid::addV(shared_ptr<Vertex>& vertex)
+{
+	if (!vertex)
+		return false;
+	if (!sVertexs)
+		sVertexs = vertex;
+	else {
+		shared_ptr<Vertex> tmp = sVertexs;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = vertex;
+		vertex->prev = tmp;
+	}
+	return true;
 }
 
 CAD::Face::Face()
@@ -16,8 +70,20 @@ CAD::Face::Face()
 	fID = id++;
 }
 
-CAD::Face::~Face()
+bool CAD::Face::addL(shared_ptr<Loop>& lp)
 {
+	if (!lp)
+		return false;
+	if (!fLoops)
+		fLoops = lp;
+	else {
+		shared_ptr<Loop> tmp = fLoops;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = lp;
+		lp->prev = tmp;
+	}
+	return true;
 }
 
 CAD::Loop::Loop()
@@ -26,8 +92,33 @@ CAD::Loop::Loop()
 	lID = id++;
 }
 
-CAD::Loop::~Loop()
+shared_ptr<HalfEdge> CAD::Loop::findHE(const shared_ptr<Vertex> & v)
 {
+	if (!lHalfEdges)
+		return nullptr;
+	shared_ptr<HalfEdge> hetmp = lHalfEdges;
+	do {
+		if (hetmp->startVertex == v)
+			return hetmp;
+		hetmp = hetmp->next;
+	} while (hetmp != lHalfEdges);
+	return nullptr;
+}
+
+bool CAD::Loop::addHE(shared_ptr<HalfEdge>& he)
+{
+	if (!he)
+		return false;
+	if (!lHalfEdges)
+		lHalfEdges = he;
+	else {
+		shared_ptr<HalfEdge> tmp = lHalfEdges;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = he;
+		he->prev = tmp;
+	}
+	return true;
 }
 
 CAD::HalfEdge::HalfEdge()
@@ -36,26 +127,16 @@ CAD::HalfEdge::HalfEdge()
 	heID = id++;
 }
 
-CAD::HalfEdge::~HalfEdge()
-{
-}
-
 CAD::Edge::Edge()
 {
 	static int id = 0;
 	eID = id++;
 }
 
-CAD::Edge::~Edge()
+bool CAD::Compare::vv(const Point & p1, const Point & p2)
 {
-}
-
-CAD::Vertex::Vertex()
-{
-	static int id = 0;
-	vID = id++;
-}
-
-CAD::Vertex::~Vertex()
-{
+	for (size_t i = 0; i < 3; i++) 
+		if ((p1.pos[i] - p1.pos[i]) > MINERROR)
+			return false;
+	return true;
 }

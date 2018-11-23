@@ -113,6 +113,8 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataStructure.cpp" />
+    <ClCompile Include="EulerOperator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MiniCAD.cpp" />
     <ClCompile Include="MiniCADWidget.cpp" />
@@ -127,6 +129,8 @@
     <QtRcc Include="MiniCAD.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataStructure.h" />
+    <ClInclude Include="EulerOperator.h" />
     <ClInclude Include="MiniCADWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
