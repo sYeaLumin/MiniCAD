@@ -9,7 +9,7 @@ EulerOperator::~EulerOperator()
 {
 }
 
-shared_ptr<Solid> EulerOperator::mvfs(const Point p)
+shared_ptr<Solid> EulerOperator::mvfs(const Point& p)
 {
 	nowSolid = make_shared<Solid>();
 	shared_ptr<Face> newFace = make_shared<Face>();
@@ -25,7 +25,7 @@ shared_ptr<Solid> EulerOperator::mvfs(const Point p)
 	return nowSolid;
 }
 
-shared_ptr<HalfEdge> EulerOperator::mev(const Point p1, const Point p2, shared_ptr<Loop>& lp)
+shared_ptr<HalfEdge> EulerOperator::mev(const Point& p1, const Point& p2, shared_ptr<Loop>& lp)
 {
 	shared_ptr<Vertex> v1 = nowSolid->findV(p1);
 	if (!v1) {
@@ -75,7 +75,7 @@ shared_ptr<HalfEdge> EulerOperator::mev(const Point p1, const Point p2, shared_p
 	return he1;
 }
 
-shared_ptr<Loop> EulerOperator::mef(const Point p1, const Point p2, shared_ptr<Loop>& lp)
+shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr<Loop>& lp)
 {
 	shared_ptr<Vertex> v1 = nowSolid->findV(p1);
 	if (!v1) {
