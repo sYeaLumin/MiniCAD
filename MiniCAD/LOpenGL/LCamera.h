@@ -1,4 +1,5 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtx\euler_angles.hpp>

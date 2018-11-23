@@ -10,11 +10,7 @@ namespace CAD{
 	class HalfEdge;
 	class Edge;
 	class Vertex;
-
-	class Compare {
-	public:
-		static bool vv(const Point& p1, const Point& p2);
-	};
+	class Point;
 
 	class Solid {
 	public:
@@ -26,7 +22,7 @@ namespace CAD{
 		shared_ptr<Solid> next;
 
 		Solid();
-		shared_ptr<Vertex> findV(const Point p);
+		shared_ptr<Vertex> findV(Point p);
 		bool addF(shared_ptr<Face>& face);
 		bool addE(shared_ptr<Edge>& edge);
 		bool addV(shared_ptr<Vertex>& vertex);
@@ -82,19 +78,6 @@ namespace CAD{
 		Edge();
 	};
 
-	class Vertex {
-	public:
-		int vID;
-		Point p;
-		shared_ptr<Vertex> prev;
-		shared_ptr<Vertex> next;
-
-		Vertex(const Point point) :p(point) {
-			static int id = 0;
-			vID = id++;
-		}
-	};
-
 	class Point {
 	public:
 		double pos[3];
@@ -122,4 +105,19 @@ namespace CAD{
 			return Point(pos[0] + point.pos[0], pos[1] + point.pos[1], pos[2] + point.pos[2]);
 		}
 	};
+
+	class Vertex {
+	public:
+		int vID;
+		Point p;
+		shared_ptr<Vertex> prev;
+		shared_ptr<Vertex> next;
+
+		Vertex(Point point) : p(point){
+			static int id = 0;
+			vID = id++;
+		}
+	};
+
+
 }

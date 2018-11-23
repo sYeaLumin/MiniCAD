@@ -1,5 +1,5 @@
 #include "Modeler.h"
-
+#include "LOpenGL\LgluTess.h"
 
 Modeler::Modeler()
 {

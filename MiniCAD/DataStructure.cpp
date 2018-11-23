@@ -1,17 +1,25 @@
 #include "DataStructure.h"
 using namespace CAD;
 
+
+bool Comparevv(const Point& p1, const Point& p2) {
+	for (size_t i = 0; i < 3; i++)
+		if ((p1.pos[i] - p1.pos[i]) > MINERROR)
+			return false;
+	return true;
+}
+
 CAD::Solid::Solid()
 {
 	static int id = 0;
 	sID = id++;
 }
 
-shared_ptr<Vertex> CAD::Solid::findV(const Point p)
+shared_ptr<Vertex> CAD::Solid::findV(Point p)
 {
 	shared_ptr<Vertex> tmp = sVertexs;
 	for (; tmp; tmp = tmp->next)
-		if (Compare::vv(tmp->p, p))
+		if (Comparevv(tmp->p, p))
 			return tmp;
 	return nullptr;
 }
@@ -131,12 +139,4 @@ CAD::Edge::Edge()
 {
 	static int id = 0;
 	eID = id++;
-}
-
-bool CAD::Compare::vv(const Point & p1, const Point & p2)
-{
-	for (size_t i = 0; i < 3; i++) 
-		if ((p1.pos[i] - p1.pos[i]) > MINERROR)
-			return false;
-	return true;
 }

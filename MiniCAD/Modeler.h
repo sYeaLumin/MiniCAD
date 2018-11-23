@@ -4,7 +4,6 @@
 #include "DataStructure.h"
 #include "EulerOperator.h"
 #include "LOpenGL\LShaderProgram.h"
-#include "LOpenGL\LgluTess.h"
 
 using namespace std;
 using namespace CAD;

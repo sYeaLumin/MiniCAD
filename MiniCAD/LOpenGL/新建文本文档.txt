@@ -1,0 +1,10 @@
+qtmaind.lib
+Qt53DCored.lib
+Qt53DAnimationd.lib
+Qt53DExtrasd.lib
+Qt53DInputd.lib
+Qt53DLogicd.lib
+Qt53DRenderd.lib
+Qt5Cored.lib
+Qt5Guid.lib
+Qt5Widgetsd.lib
