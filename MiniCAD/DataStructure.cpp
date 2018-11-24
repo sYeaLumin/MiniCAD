@@ -1,10 +1,11 @@
 #include "DataStructure.h"
+#include <math.h>
 using namespace CAD;
 
 
 bool Comparevv(const Point& p1, const Point& p2) {
 	for (size_t i = 0; i < 3; i++)
-		if ((p1.pos[i] - p1.pos[i]) > MINERROR)
+		if (abs(p1.pos[i] - p2.pos[i]) > MINERROR)
 			return false;
 	return true;
 }

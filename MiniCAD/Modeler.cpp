@@ -10,6 +10,11 @@ Modeler::~Modeler()
 {
 }
 
+void Modeler::init()
+{
+	initializeOpenGLFunctions();
+}
+
 void Modeler::draw(LShaderProgram & shader)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -75,6 +80,83 @@ void Modeler::draw(LShaderProgram & shader)
 	glDisable(GL_DEBUG_OUTPUT);
 }
 
+void Modeler::drawLine(LShaderProgram & shader)
+{
+	setupLineData2();
+
+	glLineWidth(4);
+	glShadeModel(GL_SMOOTH);
+	// shader use
+	shader.bind();
+	shader.setUniform();
+
+	glBegin(GL_LINES);
+	for (int i = 0; i < vertexData.size(); i++)
+	{
+		Point onePoint = vertexData[i];
+		glVertex3f(onePoint.pos[0], onePoint.pos[1], onePoint.pos[2]);
+	}
+	glEnd();
+}
+
+void Modeler::setupLineData()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Edge> currEdge;
+	shared_ptr<HalfEdge> currHEdge;
+	shared_ptr<Face> currFace;
+	shared_ptr<Loop> currLoop;
+
+	currSolid = solidList;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
+		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
+		{
+			for (currLoop = currFace->fLoops; currLoop != nullptr; currLoop = currLoop->next)
+			{
+				currHEdge = currLoop->lHalfEdges;
+				Point startVert = currHEdge->startVertex->p;
+				Point endVert = currHEdge->next->startVertex->p;
+				vertexData.push_back(startVert);
+				vertexData.push_back(endVert);
+
+				for (currHEdge = currHEdge->next; currHEdge != currLoop->lHalfEdges; currHEdge = currHEdge->next)
+				{
+					Point startVert = currHEdge->startVertex->p;
+					Point endVert = currHEdge->next->startVertex->p;
+					vertexData.push_back(startVert);
+					vertexData.push_back(endVert);
+				}
+			}
+		}
+	}
+}
+
+void Modeler::setupLineData2()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Edge> currEdge;
+	shared_ptr<HalfEdge> currHEdge;
+	shared_ptr<Face> currFace;
+	shared_ptr<Loop> currLoop;
+
+	currSolid = solidList;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
+		for (currEdge = currSolid->sEdges; currEdge != nullptr; currEdge = currEdge->next) {
+			Point startVert = currEdge->leftHE->startVertex->p;
+			Point endVert = currEdge->rightHE->startVertex->p;
+			vertexData.push_back(startVert);
+			vertexData.push_back(endVert);
+			qDebug() << currEdge->leftHE->startVertex->vID << " : " << startVert.pos[0] << " " << startVert.pos[1] << " " << startVert.pos[2];
+			qDebug() << currEdge->rightHE->startVertex->vID << " : " << endVert.pos[0] << " " << endVert.pos[1] << " " << endVert.pos[2];
+			qDebug() << endl;
+		}
+	}
+}
+
 bool Modeler::addNewSolid(shared_ptr<Solid>& s)
 {
 	if (s == nullptr)
@@ -116,6 +198,7 @@ void Modeler::testModelCube()
 	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
 	shared_ptr<Loop> currLoop;
 	currLoop = eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock());
+	/**/
 	//²à±ß
 	eulerOP.mev(subface[0], topface[0], currLoop);
 	eulerOP.mev(subface[1], topface[1], currLoop);

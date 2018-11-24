@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include <memory>
+#include <qdebug.h>
 #include "DataStructure.h"
 using namespace std;
 using namespace CAD;

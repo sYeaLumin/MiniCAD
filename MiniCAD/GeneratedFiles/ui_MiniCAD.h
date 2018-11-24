@@ -52,7 +52,7 @@ public:
     {
         if (MiniCADClass->objectName().isEmpty())
             MiniCADClass->setObjectName(QStringLiteral("MiniCADClass"));
-        MiniCADClass->resize(1050, 700);
+        MiniCADClass->resize(1049, 700);
         centralWidget = new QWidget(MiniCADClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         showWidget = new MiniCADWidget(centralWidget);
@@ -108,7 +108,7 @@ public:
         MiniCADClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MiniCADClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1050, 23));
+        menuBar->setGeometry(QRect(0, 0, 1049, 23));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         MiniCADClass->setMenuBar(menuBar);

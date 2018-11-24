@@ -29,9 +29,10 @@ shared_ptr<HalfEdge> EulerOperator::mev(const Point& p1, const Point& p2, shared
 {
 	shared_ptr<Vertex> v1 = nowSolid->findV(p1);
 	if (!v1) {
-		cout << "FUNC mev : Can't find vertex1 in Solid " << nowSolid->sID << endl;
+		qDebug() << "FUNC mev : Can't find vertex1 in Solid " << nowSolid->sID;
 		return nullptr;
 	}
+	qDebug() << "FUNC mev : Find vertex1 in Solid " << nowSolid->sID << " With ID " << v1->vID;
 	shared_ptr<Edge> newEdge = make_shared<Edge>();
 	shared_ptr<HalfEdge> he1 = make_shared<HalfEdge>();
 	shared_ptr<HalfEdge> he2 = make_shared<HalfEdge>();
@@ -49,7 +50,7 @@ shared_ptr<HalfEdge> EulerOperator::mev(const Point& p1, const Point& p2, shared
 	else {
 		shared_ptr<HalfEdge> heInsert = lp->findHE(v1);
 		if (!heInsert) {
-			cout << "FUNC mev : Can't find vertex1 in Loop " << lp->lID << endl;
+			qDebug() << "FUNC mev : Can't find vertex1 in Loop " << lp->lID;
 			return nullptr;
 		}
 		he1->prev = heInsert->prev;
@@ -79,22 +80,22 @@ shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr
 {
 	shared_ptr<Vertex> v1 = nowSolid->findV(p1);
 	if (!v1) {
-		cout << "FUNC mef : Can't find vertex1 in Solid " << nowSolid->sID << endl;
+		qDebug() << "FUNC mef : Can't find vertex1 in Solid " << nowSolid->sID;
 		return nullptr;
 	}
 	shared_ptr<Vertex> v2 = nowSolid->findV(p2);
 	if (!v2) {
-		cout << "FUNC mev : Can't find vertex2 in Solid " << nowSolid->sID << endl;
+		cout << "FUNC mev : Can't find vertex2 in Solid " << nowSolid->sID;
 		return nullptr;
 	}
 	shared_ptr<HalfEdge> heInsert1 = lp->findHE(v1);
 	if (!heInsert1) {
-		cout << "FUNC mev : Can't find vertex1 in Loop " << lp->lID << endl;
+		qDebug() << "FUNC mev : Can't find vertex1 in Loop " << lp->lID;
 		return nullptr;
 	}
 	shared_ptr<HalfEdge> heInsert2 = lp->findHE(v2);
 	if (!heInsert2) {
-		cout << "FUNC mev : Can't find vertex2 in Loop " << lp->lID << endl;
+		qDebug() << "FUNC mev : Can't find vertex2 in Loop " << lp->lID;
 		return nullptr;
 	}
 
@@ -131,6 +132,7 @@ shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr
 
 	//上下层连接
 	nowSolid->addF(newFace);
+	nowSolid->addE(newEdge);
 	newFace->fSolid = nowSolid;
 	newFace->addL(newLoop);
 	newLoop->lFace = newFace;

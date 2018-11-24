@@ -2,12 +2,13 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
+#include <qdebug.h>
 #include "LOpenGL\LCamera.h"
 #include "LOpenGL\LShaderProgram.h"
 #include "Modeler.h"
 
-const static char* const LightVSPath = "./LOpenGL/Light.vert";
-const static char* const LightFSPath = "./LOpenGL/Light.frag";
+const static char* const LightVSPath = "./LOpenGL/Base.vert";
+const static char* const LightFSPath = "./LOpenGL/Base.frag";
 
 class MiniCADWidget :
 	public QOpenGLWidget, protected QOpenGLFunctions

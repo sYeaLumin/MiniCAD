@@ -151,6 +151,8 @@
   <ItemGroup>
     <None Include="LOpenGL\Light.frag" />
     <None Include="LOpenGL\Light.vert" />
+    <None Include="LOpenGL\NoLight.frag" />
+    <None Include="LOpenGL\NoLight.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
