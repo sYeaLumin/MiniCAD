@@ -15,20 +15,21 @@ private:
 
 public:
 
-	LCamera(float w, float h,
-		glm::vec3 eye = glm::vec3(2.0f, 5.0f, 5.0f), 
+	LCamera() {}
+	~LCamera(){}
+
+	void init(float w, float h,
+		glm::vec3 eye = glm::vec3(2.0f, 5.0f, 5.0f),
 		glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f),
 		float fovy = glm::radians(60.0f))
-{
-		Width = 841;//w;
-		Height = 631;//h;
+	{
+		Width = w;
+		Height = h;
 		Fovy = fovy;
 		cEye = eye;
 		cCenter = center;
 		upDate();
 	}
-
-	~LCamera(){}
 
 	float getWidth() { return Width; }
 	float getHeight() { return Height; } 
