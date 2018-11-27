@@ -150,9 +150,10 @@ void Modeler::setupLineData2()
 			Point endVert = currEdge->rightHE->startVertex->p;
 			vertexData.push_back(startVert);
 			vertexData.push_back(endVert);
+			/*
 			qDebug() << currEdge->leftHE->startVertex->vID << " : " << startVert.pos[0] << " " << startVert.pos[1] << " " << startVert.pos[2];
 			qDebug() << currEdge->rightHE->startVertex->vID << " : " << endVert.pos[0] << " " << endVert.pos[1] << " " << endVert.pos[2];
-			qDebug() << endl;
+			qDebug() << endl;*/
 		}
 	}
 }
@@ -237,7 +238,9 @@ void Modeler::testModelCubeWithHole()
 	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
 	shared_ptr<Loop> currLoop;
 	currLoop = eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock());
+
 	eulerOP.sweep(currLoop->lFace.lock(), Point(0, 0, 1.0), 2.0);
-	//eulerOP.sweep(currSolid->sFaces, Point(0, 0, 1.0), 2.0);
+	//eulerOP.sweep(currSolid->sFaces, Point(0, 0, 1.0), 2.0);//与mvf中新环的选择有关
+
 	qDebug() << "Finish !";
 }

@@ -8,48 +8,7 @@ EulerOperator::EulerOperator()
 EulerOperator::~EulerOperator()
 {
 }
-/*
-void EulerOperator::sweep(shared_ptr<Face>& face, Point dir, float dist)
-{
-	dir.normalize();
-	Point sweepLine = dir * dist;
-	bool ifOutLoop = true;
-	shared_ptr<Loop> currLoop = face->fLoops;
-	shared_ptr<Loop> newOutLoop;
-	shared_ptr<Loop> newInLoop;
-	for (; currLoop != nullptr; currLoop = currLoop->next) {
-		shared_ptr<HalfEdge> currHE = currLoop->lHalfEdges;
-		shared_ptr<HalfEdge> nextHE = currHE->next;
-		shared_ptr<HalfEdge> prevHE;
-		shared_ptr<Vertex> currV = currHE->startVertex;
-		Point newP = currV->p + sweepLine;
-		mev(currV->p, newP, currLoop);
-		qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
-		do
-		{
-			prevHE = currHE;
-			currHE = nextHE;
-			nextHE = currHE->next;
-			currV = currHE->startVertex;
-			newP = currV->p + sweepLine;
-			mev(currV->p, newP, currLoop);
-			mef(prevHE->startVertex->p, newP, currLoop);
-			qDebug() << "FUNC sweep : currV ID " << currV->vID;
-			qDebug() << "FUNC sweep : prevHE->startVertex ID " << currHE->prev->startVertex->vID;
-			qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
-			qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
-		} while (nextHE != currLoop->lHalfEdges);
-		if (ifOutLoop) {
-			ifOutLoop = false;
-			newOutLoop = mef(currV->p, nextHE->startVertex->p, currLoop);
-		}
-		else {
-			newInLoop = mef(currV->p, nextHE->startVertex->p, currLoop);
-			kfmrh(newOutLoop, newInLoop);
-		}
-	}
-}
-*/
+
 void EulerOperator::sweep(shared_ptr<Face>& face, Point dir, float dist)
 {
 	dir.normalize();
