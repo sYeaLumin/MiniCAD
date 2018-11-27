@@ -73,6 +73,46 @@ bool CAD::Solid::addV(shared_ptr<Vertex>& vertex)
 	return true;
 }
 
+bool CAD::Solid::deleteE(shared_ptr<Edge>& edge)
+{
+	edge->leftHE = nullptr;
+	edge->rightHE = nullptr;
+
+	if (edge->next && edge->prev) {
+		edge->prev->next = edge->next;
+		edge->next->prev = edge->prev;
+	}
+	else if (edge->next && !edge->prev) {
+		sEdges = edge->next;
+	}
+	else if (!edge->next && edge->prev) {
+		edge->prev->next = nullptr;
+	}
+	else {
+		sEdges = nullptr;
+	}
+	return true;
+}
+
+bool CAD::Solid::deleteF(shared_ptr<Face>& face)
+{
+	face->fLoops = nullptr;
+	if (face->next && face->prev) {
+		face->prev->next = face->next;
+		face->next->prev = face->prev;
+	}
+	else if (face->next && !face->prev) {
+		sFaces = face->next;
+	}
+	else if (!face->next && face->prev) {
+		face->prev->next = nullptr;
+	}
+	else {
+		sFaces = nullptr;
+	}
+	return true;
+}
+
 CAD::Face::Face()
 {
 	static int id = 0;
@@ -114,20 +154,17 @@ shared_ptr<HalfEdge> CAD::Loop::findHE(const shared_ptr<Vertex> & v)
 	return nullptr;
 }
 
-bool CAD::Loop::addHE(shared_ptr<HalfEdge>& he)
+shared_ptr<HalfEdge> CAD::Loop::findHE(const shared_ptr<Vertex>& v1, const shared_ptr<Vertex>& v2)
 {
-	if (!he)
-		return false;
 	if (!lHalfEdges)
-		lHalfEdges = he;
-	else {
-		shared_ptr<HalfEdge> tmp = lHalfEdges;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = he;
-		he->prev = tmp;
-	}
-	return true;
+		return nullptr;
+	shared_ptr<HalfEdge> hetmp = lHalfEdges;
+	do {
+		if (hetmp->startVertex == v1 && hetmp->next->startVertex == v2)
+			return hetmp;
+		hetmp = hetmp->next;
+	} while (hetmp != lHalfEdges);
+	return nullptr;
 }
 
 CAD::HalfEdge::HalfEdge()
