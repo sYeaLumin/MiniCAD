@@ -236,10 +236,20 @@ void Modeler::testModelCubeWithHole()
 	currHalfEdge = eulerOP.mev(subface[0], subface[1], currSolid->sFaces->fLoops);//Loop？
 	currHalfEdge = eulerOP.mev(subface[1], subface[2], currHalfEdge->heLoop.lock());
 	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
-	shared_ptr<Loop> currLoop;
-	currLoop = eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock());
+	shared_ptr<Loop> sweepLoop;
+	sweepLoop = eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock());
 
-	eulerOP.sweep(currLoop->lFace.lock(), Point(0, 0, 1.0), 2.0);
+	eulerOP.mev(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	shared_ptr<Loop> inLoop;
+	inLoop = eulerOP.kemr(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	eulerOP.mev(subHole[0], subHole[1], inLoop);
+	eulerOP.mev(subHole[1], subHole[2], inLoop);
+	eulerOP.mev(subHole[2], subHole[3], inLoop);
+	shared_ptr<Loop> sweepInLoop;
+	sweepInLoop = eulerOP.mef(subHole[3], subHole[0], inLoop);
+
+	sweepLoop->next = sweepInLoop;
+	eulerOP.sweep(sweepLoop->lFace.lock(), Point(0, 0, 1.0), 2.0);
 	//eulerOP.sweep(currSolid->sFaces, Point(0, 0, 1.0), 2.0);//与mvf中新环的选择有关
 
 	qDebug() << "Finish !";
