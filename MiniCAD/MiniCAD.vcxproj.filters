@@ -77,9 +77,6 @@
     <ClInclude Include="DataStructure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EulerOperator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LOpenGL\LCamera.h">
       <Filter>LOpenGL</Filter>
     </ClInclude>
@@ -89,6 +86,12 @@
     <ClInclude Include="LOpenGL\LgluTess.h">
       <Filter>LOpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="miniCDT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EulerOperator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LOpenGL\Light.frag">
@@ -97,5 +100,7 @@
     <None Include="LOpenGL\Light.vert">
       <Filter>LOpenGL</Filter>
     </None>
+    <None Include="LOpenGL\NoLight.frag" />
+    <None Include="LOpenGL\NoLight.vert" />
   </ItemGroup>
 </Project>

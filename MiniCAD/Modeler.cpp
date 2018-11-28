@@ -82,8 +82,7 @@ void Modeler::draw(LShaderProgram & shader)
 
 void Modeler::drawLine(LShaderProgram & shader)
 {
-	setupLineData2();
-
+	//modeler.setupLineData();
 	glLineWidth(4);
 	glShadeModel(GL_SMOOTH);
 	// shader use
@@ -113,20 +112,40 @@ void Modeler::setupLineData()
 	{
 		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
 		{
+			qDebug() << "	currFace ID : " << currFace->fID;
 			for (currLoop = currFace->fLoops; currLoop != nullptr; currLoop = currLoop->next)
 			{
 				currHEdge = currLoop->lHalfEdges;
 				Point startVert = currHEdge->startVertex->p;
 				Point endVert = currHEdge->next->startVertex->p;
+				Point nextVert = currHEdge->next->next->startVertex->p;
+				Point offset1 = (endVert - startVert) * 0.4;
+				Point offset2 = (nextVert - endVert) * 0.2;
 				vertexData.push_back(startVert);
-				vertexData.push_back(endVert);
-
+				vertexData.push_back(Point(startVert + offset1 + offset2));
+				//vertexData.push_back(startVert);
+				//vertexData.push_back(endVert);
+				qDebug() << "		currLoop ID : " << currLoop->lID;
+				qDebug() << "			currHEdge ID : " << currHEdge->heID;
+				qDebug() << "				startVert ID : " << currHEdge->startVertex->vID;
+				qDebug() << "				endVert ID : " << currHEdge->next->startVertex->vID;
+				/**/
 				for (currHEdge = currHEdge->next; currHEdge != currLoop->lHalfEdges; currHEdge = currHEdge->next)
 				{
+					//Point startVert = currHEdge->startVertex->p;
+					//Point endVert = currHEdge->next->startVertex->p;
+					//vertexData.push_back(startVert);
+					//vertexData.push_back(endVert);
 					Point startVert = currHEdge->startVertex->p;
 					Point endVert = currHEdge->next->startVertex->p;
+					Point nextVert = currHEdge->next->next->startVertex->p;
+					Point offset1 = (endVert - startVert) * 0.5;
+					Point offset2 = (nextVert - endVert) * 0.1;
 					vertexData.push_back(startVert);
-					vertexData.push_back(endVert);
+					vertexData.push_back(Point(startVert + offset1 + offset2));
+					qDebug() << "			currHEdge ID : " << currHEdge->heID;
+					qDebug() << "				startVert ID : " << currHEdge->startVertex->vID;
+					qDebug() << "				endVert ID : " << currHEdge->next->startVertex->vID;
 				}
 			}
 		}
@@ -148,8 +167,10 @@ void Modeler::setupLineData2()
 		for (currEdge = currSolid->sEdges; currEdge != nullptr; currEdge = currEdge->next) {
 			Point startVert = currEdge->leftHE->startVertex->p;
 			Point endVert = currEdge->rightHE->startVertex->p;
+			Point midVert = (startVert + endVert) * 0.5;
 			vertexData.push_back(startVert);
 			vertexData.push_back(endVert);
+			//vertexData.push_back(midVert);
 			/*
 			qDebug() << currEdge->leftHE->startVertex->vID << " : " << startVert.pos[0] << " " << startVert.pos[1] << " " << startVert.pos[2];
 			qDebug() << currEdge->rightHE->startVertex->vID << " : " << endVert.pos[0] << " " << endVert.pos[1] << " " << endVert.pos[2];
@@ -210,6 +231,31 @@ void Modeler::testModelCube()
 	eulerOP.mef(topface[1], topface[2], currLoop);
 	eulerOP.mef(topface[2], topface[3], currLoop);
 	eulerOP.mef(topface[3], topface[0], currLoop);
+}
+
+void Modeler::testModelCube2()
+{
+	Point subface[4] = {
+		Point(0.5, 0.5, -0.5),
+		Point(-0.5, 0.5, -0.5),
+		Point(-0.5, -0.5, -0.5),
+		Point(0.5, -0.5, -0.5)
+	};
+	vector<shared_ptr<Loop>> sweepLoopList;
+	//µ×±ß
+	shared_ptr<Solid> currSolid = eulerOP.mvfs(subface[0]);
+	if (!addNewSolid(currSolid)) {
+		cout << "Modeler::testModelCube : mvfs failed !" << endl;
+		return;
+	}
+	shared_ptr<HalfEdge> currHalfEdge;
+	currHalfEdge = eulerOP.mev(subface[0], subface[1], currSolid->sFaces->fLoops);//Loop£¿
+	currHalfEdge = eulerOP.mev(subface[1], subface[2], currHalfEdge->heLoop.lock());
+	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
+	shared_ptr<Loop> currLoop;
+	currLoop = eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock());
+	sweepLoopList.push_back(currLoop);
+	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 2.0);
 }
 
 void Modeler::testModelCubeWithHole()
