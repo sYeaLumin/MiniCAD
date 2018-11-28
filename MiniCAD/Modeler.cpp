@@ -254,3 +254,45 @@ void Modeler::testModelCubeWithHole()
 
 	qDebug() << "Finish !";
 }
+
+void Modeler::testModelCubeWithHole2()
+{
+	Point subface[4] = {
+		Point(0.5, 0.5, -0.5),
+		Point(-0.5, 0.5, -0.5),
+		Point(-0.5, -0.5, -0.5),
+		Point(0.5, -0.5, -0.5)
+	};
+	Point subHole[4] = {
+		Point(0.25, 0.25, -0.5),
+		Point(-0.25, 0.25, -0.5),
+		Point(-0.25, -0.25, -0.5),
+		Point(0.25, -0.25, -0.5)
+	};
+	vector<shared_ptr<Loop>> sweepLoopList;
+	//µ×±ß
+	shared_ptr<Solid> currSolid = eulerOP.mvfs(subface[0]);
+	if (!addNewSolid(currSolid)) {
+		cout << "Modeler::testModelCube : mvfs failed !" << endl;
+		return;
+	}
+	shared_ptr<HalfEdge> currHalfEdge;
+	currHalfEdge = eulerOP.mev(subface[0], subface[1], currSolid->sFaces->fLoops);//Loop£¿
+	currHalfEdge = eulerOP.mev(subface[1], subface[2], currHalfEdge->heLoop.lock());
+	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
+
+	sweepLoopList.push_back(eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock()));
+
+	eulerOP.mev(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	shared_ptr<Loop> inLoop;
+	inLoop = eulerOP.kemr(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	eulerOP.mev(subHole[0], subHole[1], inLoop);
+	eulerOP.mev(subHole[1], subHole[2], inLoop);
+	eulerOP.mev(subHole[2], subHole[3], inLoop);
+
+	sweepLoopList.push_back(eulerOP.mef(subHole[3], subHole[0], inLoop));
+
+	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 2.0);
+
+	qDebug() << "Finish !";
+}

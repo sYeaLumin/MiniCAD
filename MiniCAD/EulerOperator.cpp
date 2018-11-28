@@ -57,6 +57,56 @@ void EulerOperator::sweep(shared_ptr<Face>& face, Point dir, float dist)
 	}
 }
 
+void EulerOperator::sweep(vector<shared_ptr<Loop>> LoopList, Point dir, float dist)
+{
+	dir.normalize();
+	Point sweepLine = dir * dist;
+	shared_ptr<Loop> newOutLoop;
+	shared_ptr<Loop> newInLoop;
+	newOutLoop = _sweep(LoopList[0], dir, dist);
+	for (size_t i = 1; i < LoopList.size(); i++) {
+		newInLoop = _sweep(LoopList[i], dir, dist);
+		kfmrh(newOutLoop, newInLoop);
+	}
+}
+
+shared_ptr<Loop> EulerOperator::_sweep(shared_ptr<Loop>& currLoop, Point dir, float dist)
+{
+	dir.normalize();
+	Point sweepLine = dir * dist;
+	shared_ptr<HalfEdge> currHE = currLoop->lHalfEdges;
+	shared_ptr<HalfEdge> nextHE = currHE->next;
+	shared_ptr<HalfEdge> prevHE = currHE->prev;
+	shared_ptr<Vertex> startV = currHE->startVertex;
+	shared_ptr<Vertex> currV = currHE->startVertex;
+	Point startSweepP = currV->p + sweepLine;
+	Point newSweepP = startSweepP;
+	Point lastSweepP;
+
+	shared_ptr<HalfEdge> tmp = currLoop->lHalfEdges;
+	for (; tmp->next != currLoop->lHalfEdges; tmp = tmp->next) {
+		qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+	}
+	qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+	mev(currV->p, newSweepP, currLoop);
+	qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
+	do
+	{
+		prevHE = currHE;
+		currHE = nextHE;
+		nextHE = currHE->next;
+		currV = currHE->startVertex;
+		lastSweepP = newSweepP;
+		newSweepP = currV->p + sweepLine;
+		mev(currV->p, newSweepP, currLoop);
+		mef(lastSweepP, newSweepP, currLoop);
+		qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
+		qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
+	} while (nextHE->startVertex != startV);
+
+	return mef(newSweepP, startSweepP, currLoop);
+}
+
 shared_ptr<Solid> EulerOperator::mvfs(const Point& p)
 {
 	nowSolid = make_shared<Solid>();

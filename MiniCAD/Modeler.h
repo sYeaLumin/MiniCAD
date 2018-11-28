@@ -24,7 +24,9 @@ public:
 	void setupLineData2();
 	bool addNewSolid(shared_ptr<Solid>& s);
 	void testModelCube();
+	void testModelCube2();
 	void testModelCubeWithHole();
+	void testModelCubeWithHole2();
 
 private:
 	shared_ptr<Solid> solidList;

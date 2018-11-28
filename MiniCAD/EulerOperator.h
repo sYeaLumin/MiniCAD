@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include <memory>
+#include <vector>
 #include <qdebug.h>
 #include "DataStructure.h"
 using namespace std;
@@ -13,6 +14,8 @@ public:
 	~EulerOperator();
 
 	void sweep(shared_ptr<Face>& face, Point dir, float dist);
+	void sweep(vector<shared_ptr<Loop>> LoopList, Point dir, float dist);
+	shared_ptr<Loop> _sweep(shared_ptr<Loop>& currLoop, Point dir, float dist);
 	shared_ptr<Solid> mvfs(const Point & p);
 	shared_ptr<HalfEdge> mev(const Point & p1,const Point & p2, shared_ptr<Loop>& lp);
 	shared_ptr<Loop> mef(const Point & p1, const Point & p2, shared_ptr<Loop>& lp);
