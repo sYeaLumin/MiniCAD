@@ -387,9 +387,10 @@ void Modeler::testModelCubeWithHole2()
 	eulerOP.mev(subHole[0], subHole[1], inLoop);
 	eulerOP.mev(subHole[1], subHole[2], inLoop);
 	eulerOP.mev(subHole[2], subHole[3], inLoop);
-
-	sweepLoopList.push_back(eulerOP.mef(subHole[3], subHole[0], inLoop));
-
+	shared_ptr<Loop> inLoop2 = eulerOP.mef(subHole[3], subHole[0], inLoop);
+	//sweepLoopList.push_back(inLoop2);
+	swapUpLinkForLoop(inLoop, inLoop2);
+	sweepLoopList.push_back(inLoop);
 	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 2.0);
 
 	qDebug() << "Finish !";

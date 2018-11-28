@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <math.h>
+#include <qdebug.h>
 #define MINERROR 10e-6
 using namespace std;
 
@@ -56,6 +57,7 @@ namespace CAD{
 		shared_ptr<HalfEdge> findHE(const shared_ptr<Vertex> & v);
 		shared_ptr<HalfEdge> findHE(const shared_ptr<Vertex> & v1,
 			const shared_ptr<Vertex> & v2);
+		friend void swapUpLinkForLoop(shared_ptr<Loop>& lp1, shared_ptr<Loop>& lp2);
 	};
 
 	class HalfEdge {

@@ -61,12 +61,10 @@ void EulerOperator::sweep(vector<shared_ptr<Loop>> LoopList, Point dir, float di
 {
 	dir.normalize();
 	Point sweepLine = dir * dist;
-	shared_ptr<Loop> newOutLoop;
-	shared_ptr<Loop> newInLoop;
-	newOutLoop = _sweep(LoopList[0], dir, dist);
+	_sweep(LoopList[0], dir, dist);
 	for (size_t i = 1; i < LoopList.size(); i++) {
-		newInLoop = _sweep(LoopList[i], dir, dist);
-		kfmrh(newOutLoop, newInLoop);
+		_sweep(LoopList[i], dir, dist);
+		kfmrh(LoopList[0], LoopList[i]);
 	}
 }
 

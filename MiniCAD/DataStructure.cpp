@@ -178,3 +178,17 @@ CAD::Edge::Edge()
 	static int id = 0;
 	eID = id++;
 }
+
+void CAD::swapUpLinkForLoop(shared_ptr<Loop>& lp1, shared_ptr<Loop>& lp2)
+{
+	if (lp2->prev || lp2->next || !lp1->prev || lp1->next) {
+		qDebug() << "FUNC swapLoop : illegal !";
+		return;
+	}
+	shared_ptr<Face> Face2 = lp2->lFace.lock();
+	lp1->prev->next = lp2;
+	Face2->fLoops = lp1;
+	std::swap(lp1->lFace, lp2->lFace);
+	std::swap(lp1->prev, lp2->prev);
+}
+
