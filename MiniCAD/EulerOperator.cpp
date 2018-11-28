@@ -211,7 +211,7 @@ shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr
 	newLoop->lHalfEdges = he2;
 	//环接：V1顶点
 	heInsert1->prev->next = he1;
-	he2->prev = heInsert2->prev;
+	he1->prev = heInsert1->prev;
 	heInsert1->prev = he2;
 	he2->next = heInsert1;
 	//环接：修改newLoop内HE的Loop连接
@@ -220,7 +220,7 @@ shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr
 		tmp->heLoop = newLoop;
 	//环接：V2顶点
 	heInsert2->prev->next = he2;
-	he1->prev = heInsert1->prev;
+	he2->prev = heInsert2->prev;
 	heInsert2->prev = he1;
 	he1->next = heInsert2;
 	
@@ -289,21 +289,27 @@ shared_ptr<Loop> EulerOperator::kemr(const Point & p1, const Point & p2, shared_
 	if (heDelete1->next == heDelete2) {
 		heDelete1->next = nullptr;
 		heDelete2->prev = nullptr;
-		newLoop->prev = lp;
-		newLoop->lFace = lp->lFace;
-		newLoop->next = nullptr;
 		newLoop->lHalfEdges = nullptr;
 	}
 	else {
 		heDelete1->next->prev = heDelete2->prev;
 		heDelete2->prev->next = heDelete1->next;
 		shared_ptr<HalfEdge> tmp = heDelete1->next;
+		newLoop->lHalfEdges = tmp;
 		do
 		{
 			tmp->heLoop = newLoop;
 			tmp = tmp->next;
 		} while (tmp->startVertex != v2);
 	}
+	newLoop->prev = lp;
+	shared_ptr<Loop> tmpL = lp;
+	while (tmpL->next)
+		tmpL = tmpL->next;
+	tmpL->next = newLoop;
+	newLoop->lFace = lp->lFace;
+	newLoop->next = nullptr;
+
 	heDelete1 = heDelete2 = nullptr;
 	
 	return newLoop;

@@ -22,6 +22,7 @@ public:
 	void drawLine(LShaderProgram & shader);
 	void setupLineData();
 	void setupLineData2();
+	void setupLineData3();
 	bool addNewSolid(shared_ptr<Solid>& s);
 	void testModelCube();
 	void testModelCube2();

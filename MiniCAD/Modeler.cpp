@@ -179,6 +179,58 @@ void Modeler::setupLineData2()
 	}
 }
 
+void Modeler::setupLineData3()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Edge> currEdge;
+	shared_ptr<HalfEdge> currHEdge;
+	shared_ptr<Face> currFace;
+	shared_ptr<Loop> currLoop;
+	double off = 0.2;
+	currSolid = solidList;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
+		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
+		{
+			qDebug() << "	currFace ID : " << currFace->fID;
+			for (currLoop = currFace->fLoops; currLoop != nullptr; currLoop = currLoop->next)
+			{
+				qDebug() << "		currLoop ID : " << currLoop->lID;
+				currHEdge = currLoop->lHalfEdges;
+				Point pList[3];
+				pList[0] = currHEdge->startVertex->p;
+				pList[1] = currHEdge->next->startVertex->p;
+				pList[2] = currHEdge->next->next->startVertex->p;
+				Point tmp1 = pList[1] - pList[0];
+				Point tmp2 = pList[2] - pList[1];
+				glm::vec3 normal = glm::normalize(glm::cross(
+					glm::vec3(tmp2.pos[0], tmp2.pos[1], tmp2.pos[2]),
+					glm::vec3(tmp1.pos[0], tmp1.pos[1], tmp1.pos[2])
+				));
+				qDebug() << "		normal : " << normal.x << " : " << normal.y << " : " << normal.z;
+				Point offset(normal.x, normal.y, normal.z);
+				Point startVert = currHEdge->startVertex->p;
+				Point endVert = currHEdge->next->startVertex->p;
+				Point newStartVert = startVert + offset * off;
+				Point newEndVert = endVert + offset * off;
+				vertexData.push_back(newStartVert);
+				vertexData.push_back(newEndVert);
+
+				for (currHEdge = currHEdge->next; currHEdge != currLoop->lHalfEdges; currHEdge = currHEdge->next)
+				{
+					Point startVert2 = currHEdge->startVertex->p;
+					Point endVert2 = currHEdge->next->startVertex->p;
+					Point newStartVert2 = startVert2 + offset * off;
+					Point newEndVert2 = endVert2 + offset * off;
+					vertexData.push_back(newStartVert2);
+					vertexData.push_back(newEndVert2);
+				}
+			}
+		}
+	}
+}
+
 bool Modeler::addNewSolid(shared_ptr<Solid>& s)
 {
 	if (s == nullptr)

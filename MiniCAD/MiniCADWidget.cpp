@@ -7,9 +7,9 @@ MiniCADWidget::MiniCADWidget(QWidget *parent) :
 	camera(),
 	shader(LightVSPath, LightFSPath, camera)
 {
-	modeler.testModelCube2();
-	//modeler.testModelCubeWithHole2();
-	modeler.setupLineData();
+	//modeler.testModelCube2();
+	modeler.testModelCubeWithHole2();
+	modeler.setupLineData3();
 	//modeler.setupLineData2();
 }
 
