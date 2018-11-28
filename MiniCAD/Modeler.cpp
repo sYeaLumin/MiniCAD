@@ -110,6 +110,28 @@ void Modeler::setupLineData()
 	currSolid = solidList;
 	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
 	{
+		for (currEdge = currSolid->sEdges; currEdge != nullptr; currEdge = currEdge->next) {
+			Point startVert = currEdge->leftHE->startVertex->p;
+			Point endVert = currEdge->rightHE->startVertex->p;
+			Point midVert = (startVert + endVert) * 0.5;
+			vertexData.push_back(startVert);
+			vertexData.push_back(endVert);
+		}
+	}
+}
+
+void Modeler::setupLineDataTest1()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Edge> currEdge;
+	shared_ptr<HalfEdge> currHEdge;
+	shared_ptr<Face> currFace;
+	shared_ptr<Loop> currLoop;
+
+	currSolid = solidList;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
 		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
 		{
 			qDebug() << "	currFace ID : " << currFace->fID;
@@ -152,34 +174,7 @@ void Modeler::setupLineData()
 	}
 }
 
-void Modeler::setupLineData2()
-{
-	vertexData.clear();
-	shared_ptr<Solid> currSolid;
-	shared_ptr<Edge> currEdge;
-	shared_ptr<HalfEdge> currHEdge;
-	shared_ptr<Face> currFace;
-	shared_ptr<Loop> currLoop;
-
-	currSolid = solidList;
-	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
-	{
-		for (currEdge = currSolid->sEdges; currEdge != nullptr; currEdge = currEdge->next) {
-			Point startVert = currEdge->leftHE->startVertex->p;
-			Point endVert = currEdge->rightHE->startVertex->p;
-			Point midVert = (startVert + endVert) * 0.5;
-			vertexData.push_back(startVert);
-			vertexData.push_back(endVert);
-			//vertexData.push_back(midVert);
-			/*
-			qDebug() << currEdge->leftHE->startVertex->vID << " : " << startVert.pos[0] << " " << startVert.pos[1] << " " << startVert.pos[2];
-			qDebug() << currEdge->rightHE->startVertex->vID << " : " << endVert.pos[0] << " " << endVert.pos[1] << " " << endVert.pos[2];
-			qDebug() << endl;*/
-		}
-	}
-}
-
-void Modeler::setupLineData3()
+void Modeler::setupLineDataTest2()
 {
 	vertexData.clear();
 	shared_ptr<Solid> currSolid;
@@ -229,6 +224,25 @@ void Modeler::setupLineData3()
 			}
 		}
 	}
+}
+
+void Modeler::setupLineDataTestCDT1()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Face> currFace;
+	double off = 0.2;
+	currSolid = solidList;
+	miniCDT cdt;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
+		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
+		{
+			cdt.init(currFace);
+			cdt.setUpLineDataTest1(vertexData);
+		}
+	}
+
 }
 
 bool Modeler::addNewSolid(shared_ptr<Solid>& s)

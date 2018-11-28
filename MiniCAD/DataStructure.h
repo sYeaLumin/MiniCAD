@@ -107,8 +107,11 @@ namespace CAD{
 		Point& operator-(const Point point) {
 			return Point(pos[0] - point.pos[0], pos[1] - point.pos[1], pos[2] - point.pos[2]);
 		}
+		double length() {
+			return sqrt(pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2]);
+		}
 		void normalize() {
-			double norm = sqrt(pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2]);
+			double norm = length();
 			pos[0] = pos[0] / norm;
 			pos[1] = pos[1] / norm;
 			pos[2] = pos[2] / norm;

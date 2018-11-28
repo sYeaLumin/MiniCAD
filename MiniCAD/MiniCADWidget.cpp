@@ -9,8 +9,8 @@ MiniCADWidget::MiniCADWidget(QWidget *parent) :
 {
 	//modeler.testModelCube2();
 	modeler.testModelCubeWithHole2();
-	modeler.setupLineData3();
-	//modeler.setupLineData2();
+	modeler.setupLineDataTestCDT1();
+	//modeler.setupLineDataTest2();
 }
 
 

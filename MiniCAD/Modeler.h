@@ -4,6 +4,7 @@
 #include <qdebug.h>
 #include "DataStructure.h"
 #include "EulerOperator.h"
+#include "miniCDT.h"
 #include "LOpenGL\LShaderProgram.h"
 
 using namespace std;
@@ -21,8 +22,9 @@ public:
 	void draw(LShaderProgram & shader);
 	void drawLine(LShaderProgram & shader);
 	void setupLineData();
-	void setupLineData2();
-	void setupLineData3();
+	void setupLineDataTest1();
+	void setupLineDataTest2();
+	void setupLineDataTestCDT1();
 	bool addNewSolid(shared_ptr<Solid>& s);
 	void testModelCube();
 	void testModelCube2();
