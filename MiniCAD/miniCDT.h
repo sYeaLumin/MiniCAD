@@ -12,7 +12,7 @@ namespace CAD {
 	class Tri {
 	public:
 		int v[3];
-		shared_ptr<Tri> adjTri[3];
+		weak_ptr<Tri> adjTri[3];
 		Tri() {}
 		Tri(int v1, int v2, int v3) {
 			v[0] = v1;
@@ -29,10 +29,10 @@ namespace CAD {
 				return true;
 			return false;
 		}
-		void changeAdj(Tri & t1, Tri & t2) {
+		void changeAdj(Tri & t1, shared_ptr<Tri> t2) {
 			for (size_t i = 0; i<3; i++)
-				if (adjTri[i]->ifSameTri(t1))
-					adjTri[i] = make_shared<Tri>(t2);
+				if (adjTri[i].lock()->ifSameTri(t1))
+					adjTri[i] = t2;
 		}
 	};
 	class constraintEdge {
@@ -49,7 +49,7 @@ namespace CAD {
 		glm::vec3 normal;
 		vector<Point> pList;
 		vector<glm::vec2> vList;
-		vector<Tri> triList;
+		vector<shared_ptr<Tri>> triList;
 		vector<vector<constraintEdge>> boundary;
 
 	private:

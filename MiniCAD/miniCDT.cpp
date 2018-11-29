@@ -59,7 +59,7 @@ void CAD::miniCDT::Triangulate()
 	vList.push_back(glm::vec2(-MAX, -MAX));
 	right = vList.size();
 	vList.push_back(glm::vec2(MAX, -MAX));
-	triList.push_back(Tri(top, left, right));
+	triList.push_back(make_shared<Tri>(top, left, right));
 
 	uniform_int_distribution<int> Rand(0, size);
 	for (size_t i = 0; i < size; i++) {
@@ -83,7 +83,7 @@ void CAD::miniCDT::Triangulate()
 		bool onEdge = true;
 		for (size_t j = 0; j < triList.size() && ifOnEdge; j++) {
 			for (size_t k = 0; k < 3; k++) {
-				if (ifOnEdge(vList[triList[j].v[k]], vList[triList[j].v[(k + 1) % 3]], vList[index])) {
+				if (ifOnEdge(vList[triList[j]->v[k]], vList[triList[j]->v[(k + 1) % 3]], vList[index])) {
 
 				}
 			}
@@ -135,32 +135,33 @@ void CAD::miniCDT::addOnEdge(Tri & t, int e, int v)
 	int p, a, b, d = 0;
 	shared_ptr<Tri> bp, pa, ad, db, next;
 
-	next = t.adjTri[e];
-	bp = t.adjTri[(e + 1) % 3];
-	pa = t.adjTri[(e + 2) % 3];
+	next = t.adjTri[e].lock();
+	bp = t.adjTri[(e + 1) % 3].lock();
+	pa = t.adjTri[(e + 2) % 3].lock();
 
 	a = t.v[e];
 	b = t.v[(e + 1) % 3];
 	p = t.v[(e + 2) % 3];
 
 	if (next == nullptr) {
-		Tri newTri[2];
-		newTri[0] = Tri(p, a, v);
-		newTri[1] = Tri(p, v, b);
+		//Tri newTri[2];
+		shared_ptr<Tri> newTri[2];
+		newTri[0] = make_shared<Tri>(p, a, v);
+		newTri[1] = make_shared<Tri>(p, v, b);
 
-		newTri[0].adjTri[0] = pa;
-		newTri[0].adjTri[2] = make_shared<Tri>(newTri[1]);//Ð´·¨£¿
+		newTri[0]->adjTri[0] = pa;
+		newTri[0]->adjTri[2] = newTri[1];//Ð´·¨£¿
 		if (bp != nullptr)
 			bp->changeAdj(t, newTri[1]);
 
-		newTri[1].adjTri[0] = make_shared<Tri>(newTri[0]);
-		newTri[1].adjTri[2] = bp;
+		newTri[1]->adjTri[0] = newTri[0];
+		newTri[1]->adjTri[2] = bp;
 		if (bp != nullptr)
 			bp->changeAdj(t, newTri[1]);
 
 		size_t f;
 		for (f = 0; f < triList.size(); f++)
-			if (triList[f].ifSameTri(t))
+			if (triList[f]->ifSameTri(t))
 				break;
 		triList.erase(triList.begin() + f);
 		for (size_t i = 0; i < 2; i++)
@@ -170,44 +171,45 @@ void CAD::miniCDT::addOnEdge(Tri & t, int e, int v)
 		for (size_t i = 0; i < 3; i++) {
 			if (next->v[i] != a && next->v[i] != b) {
 				d = next->v[i];
-				db = next->adjTri[i];
-				ad = next->adjTri[(i + 2) % 3];
+				db = next->adjTri[i].lock();
+				ad = next->adjTri[(i + 2) % 3].lock();
 			}
-			Tri newTri[4];
-			newTri[0] = Tri(p, a, v);
-			newTri[1] = Tri(p, v, b);
-			newTri[2] = Tri(v, a, d);
-			newTri[3] = Tri(v, d, b);
+			shared_ptr<Tri> newTri[4];
+			newTri[0] = make_shared<Tri>(p, a, v);
+			newTri[1] = make_shared<Tri>(p, v, b);
+			newTri[2] = make_shared<Tri>(v, a, d);
+			newTri[3] = make_shared<Tri>(v, d, b);
 
-			newTri[0].adjTri[0] = pa;
-			newTri[0].adjTri[1] = make_shared<Tri>(newTri[2]);
-			newTri[0].adjTri[2] = make_shared<Tri>(newTri[1]);
+			newTri[0]->adjTri[0] = pa;
+			newTri[0]->adjTri[1] = newTri[2];
+			newTri[0]->adjTri[2] = newTri[1];
 			if (pa != nullptr)
 				pa->changeAdj(t, newTri[0]);
 
-			newTri[1].adjTri[0] = make_shared<Tri>(newTri[0]);
-			newTri[1].adjTri[1] = make_shared<Tri>(newTri[3]);
-			newTri[1].adjTri[2] = bp;
+			newTri[1]->adjTri[0] = newTri[0];
+			newTri[1]->adjTri[1] = newTri[3];
+			newTri[1]->adjTri[2] = bp;
 			if (bp != nullptr)
 				bp->changeAdj(t, newTri[1]);
 
-			newTri[2].adjTri[0] = make_shared<Tri>(newTri[0]);
-			newTri[2].adjTri[1] = ad;
-			newTri[2].adjTri[2] = make_shared<Tri>(newTri[3]);
+			newTri[2]->adjTri[0] = newTri[0];
+			newTri[2]->adjTri[1] = ad;
+			newTri[2]->adjTri[2] = newTri[3];
 			if (ad != nullptr)
 				ad->changeAdj(t, newTri[2]);
 
-			newTri[3].adjTri[0] = make_shared<Tri>(newTri[2]);
-			newTri[3].adjTri[1] = db;
-			newTri[3].adjTri[2] = make_shared<Tri>(newTri[1]);
+			newTri[3]->adjTri[0] = newTri[2];
+			newTri[3]->adjTri[1] = db;
+			newTri[3]->adjTri[2] = newTri[1];
 			if (db != nullptr)
 				db->changeAdj(t, newTri[3]);
 
 			for (size_t j = 0; j < triList.size(); j++) {
-				if (triList[j].ifSameTri(t))
+				if (triList[j]->ifSameTri(t))
 					std::swap(triList[j], newTri[0]);
-				if(triList[j].ifSameTri(next))
+				if(triList[j]->ifSameTri(next))
 					std::swap(triList[j], newTri[1]);
 			}
+
 	}
 }
