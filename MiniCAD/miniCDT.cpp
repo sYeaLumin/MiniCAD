@@ -138,6 +138,11 @@ void CAD::miniCDT::Triangulate()
 	}
 	if (ifLog)
 		Log();
+
+	//删除内环中的三角形
+	deleteTriInHole();
+	if (ifLog)
+		Log();
 }
 
 void CAD::miniCDT::Log()
@@ -390,8 +395,8 @@ void CAD::miniCDT::swapTest(shared_ptr<Tri>& t, int e)
 
 		if (ifLog)
 			qDebug() << "		d : " << d;
-		//if (ifInCircle(c, vList[d]) && !ifBEdge(a, b)) {
-		if (ifInCircle(c, vList[d])) {
+		if (ifInCircle(c, vList[d]) && !ifBEdge(a, b)) {
+		//if (ifInCircle(c, vList[d])) {
 			if (ifLog)
 				qDebug() << "		ifInCircle(c, vList[d])";
 			shared_ptr<Tri> newTri[2];
@@ -445,4 +450,29 @@ int CAD::miniCDT::orientation(glm::vec2 & p1, glm::vec2 & p2, glm::vec2 & p3)
 		p1.y * p2.x - p2.y * p3.x - p3.y * p1.x;
 
 	return (d < -MIN) ? -1 : (d > MIN ? 1 : 0);
+}
+
+void CAD::miniCDT::deleteTriInHole()
+{
+	for (size_t i = 1; i < boundary.size(); i++) {
+		vector<constraintEdge> currLoop = boundary[i];
+		set<int> inLoopVs;
+		for (size_t j = 0; j < currLoop.size(); j++) {
+			inLoopVs.insert(currLoop[j].v[0]);
+			inLoopVs.insert(currLoop[j].v[1]);
+		}
+		//删除三个顶点都为内环点的三角形
+		vector<shared_ptr<Tri>>::iterator currT;
+		for (currT = triList.begin(); currT != triList.end();)
+		{
+			if (inLoopVs.find((*currT)->v[0]) != inLoopVs.end() &&
+				inLoopVs.find((*currT)->v[1]) != inLoopVs.end() &&
+				inLoopVs.find((*currT)->v[2]) != inLoopVs.end()) {
+				removeTri((*currT));
+				currT = triList.erase(currT); // 删除并指向下一个
+			}
+			else
+				++currT;
+		}
+	}
 }

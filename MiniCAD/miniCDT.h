@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <random>
+#include <set>
 #include <qdebug.h>
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
@@ -72,7 +73,7 @@ namespace CAD {
 	class miniCDT
 	{
 	private:
-		bool ifLog = true;
+		bool ifLog = false;
 		glm::vec3 normal;
 		vector<Point> pList;
 		vector<glm::vec2> vList;
@@ -88,7 +89,6 @@ namespace CAD {
 
 	public:
 		void init(shared_ptr<Face>& face);
-
 		void Triangulate();
 
 		void Log();
@@ -100,11 +100,15 @@ namespace CAD {
 		void addOnEdge(shared_ptr<Tri> t, int e, int v);
 		bool ifInTriangle(glm::vec2 & p1, glm::vec2 & p2, glm::vec2 & p3, glm::vec2 & p);
 		void addInTri(shared_ptr<Tri> & t, int v);
+
 		bool ifInCircle(Circle & c, glm::vec2 & p);
 		bool ifBEdge(int v1, int v2);
 		void swapTest(shared_ptr<Tri> & t, int e);
+
 		void removeTri(shared_ptr<Tri> & t);
 		int orientation(glm::vec2 & p1, glm::vec2 & p2, glm::vec2 & p3);
+
+		void deleteTriInHole();
 	};
 
 }
