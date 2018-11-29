@@ -239,7 +239,8 @@ void Modeler::setupLineDataTestCDT1()
 		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
 		{
 			cdt.init(currFace);
-			cdt.setUpLineDataTest1(vertexData);
+			cdt.Triangulate();
+			cdt.setUpLineDataTest2(vertexData);
 		}
 	}
 
