@@ -118,6 +118,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MiniCAD.cpp" />
     <ClCompile Include="MiniCADWidget.cpp" />
+    <ClCompile Include="miniCDT.cpp" />
     <ClCompile Include="Modeler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,8 +151,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LOpenGL\Light.frag" />
-    <None Include="LOpenGL\Light.vert" />
     <None Include="LOpenGL\NoLight.frag" />
     <None Include="LOpenGL\NoLight.vert" />
   </ItemGroup>

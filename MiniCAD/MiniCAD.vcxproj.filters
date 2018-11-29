@@ -51,6 +51,9 @@
     <ClCompile Include="Modeler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="miniCDT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MiniCAD.h">
@@ -94,12 +97,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LOpenGL\Light.frag">
-      <Filter>LOpenGL</Filter>
-    </None>
-    <None Include="LOpenGL\Light.vert">
-      <Filter>LOpenGL</Filter>
-    </None>
     <None Include="LOpenGL\NoLight.frag" />
     <None Include="LOpenGL\NoLight.vert" />
   </ItemGroup>
