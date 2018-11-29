@@ -5,7 +5,8 @@
 MiniCADWidget::MiniCADWidget(QWidget *parent) :
 	QOpenGLWidget(parent),
 	camera(),
-	shader(LightVSPath, LightFSPath, camera)
+	Lineshader(LineVSPath, LineFSPath, camera),
+	Faceshader(FaceVSPath, FaceFSPath, camera)
 {
 	//modeler.testModelCube2();
 	modeler.testModelCubeWithHole2();
@@ -23,7 +24,7 @@ void MiniCADWidget::initializeGL()
 	initializeOpenGLFunctions();
 	camera.init(geometry().width(), geometry().height());
 	modeler.init();
-	shader.init();
+	Lineshader.init();
 	glViewport(0, 0, geometry().width(), geometry().height());//?
 	glEnable(GL_MULTISAMPLE);
 }
@@ -33,7 +34,7 @@ void MiniCADWidget::paintGL()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//draw
-	modeler.drawLine(shader);
+	modeler.drawLine(Lineshader);
 }
 
 void MiniCADWidget::resizeGL(int width, int height)
