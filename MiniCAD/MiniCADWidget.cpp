@@ -10,7 +10,8 @@ MiniCADWidget::MiniCADWidget(QWidget *parent) :
 {
 	//modeler.testModelCube2();
 	//modeler.testModelCubeWithHole2();
-	modeler.testModelCubeWithHole3();
+	//modeler.testModelCubeWithHole3();
+	modeler.testModel();
 }
 
 
@@ -94,6 +95,18 @@ void MiniCADWidget::onDrawFacesCheckBoxSlot(bool checkState)
 	makeCurrent();
 	ifDrawFace = checkState;
 	modeler.setupFaceData();
+	update();
+}
+
+void MiniCADWidget::buttonSweep(float x, float y, float z, float l)
+{
+	qDebug() << "		x : " << x << " y : " << y << " z : " << z << "l : " << l;
+	makeCurrent();
+	modeler.doSweep(x, y, z, l);
+	if (ifDrawLines)
+		modeler.setupLineData();
+	if (ifDrawFace)
+		modeler.setupFaceData();
 	update();
 }
 

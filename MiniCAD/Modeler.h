@@ -31,11 +31,15 @@ public:
 	void setupFaceData();
 
 	bool addNewSolid(shared_ptr<Solid>& s);
+	void doSweep(float x, float y, float z, float l);
+
 	void testModelCube();
 	void testModelCube2();
 	void testModelCubeWithHole();
 	void testModelCubeWithHole2();
 	void testModelCubeWithHole3();
+	void testModel();
+
 
 private:
 	shared_ptr<Solid> solidList;
@@ -43,5 +47,6 @@ private:
 	vector<Point> vertexData;
 	vector<vector<vector<Point>>> faceData;
 	ModelRenderingObject mObj;
+	vector<shared_ptr<Loop>> sweepLoopList;
 };
 

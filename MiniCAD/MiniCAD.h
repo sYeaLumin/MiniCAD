@@ -10,6 +10,9 @@ class MiniCAD : public QMainWindow
 public:
 	MiniCAD(QWidget *parent = Q_NULLPTR);
 
+public slots:
+	void pushButtonSweep();
+
 private:
 	Ui::MiniCADClass ui;
 };

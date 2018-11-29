@@ -43,7 +43,8 @@ protected:
 public slots:
 	void onDrawLinesCheckBoxSlot(bool checkState);
 	void onDrawFacesCheckBoxSlot(bool checkState);
-
+public:
+	void buttonSweep(float x, float y, float z, float l);
 
 private:
 	void cameraOperate(QMouseEvent * mouseEvent, MouseActionType type);
