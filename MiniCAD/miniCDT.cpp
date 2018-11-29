@@ -192,6 +192,24 @@ void CAD::miniCDT::setUpLineDataTest2(vector<Point>& vertexData)
 	}
 }
 
+void CAD::miniCDT::setUpFaceData(ModelRenderingObject & rObj)
+{
+	if (ifLog)
+		qDebug() << "FUNC setUpFaceData : ";
+	Point offset(normal.x, normal.y, normal.z);
+	double off = 0.2;
+	for (size_t i = 0; i < triList.size(); i++) {
+		shared_ptr<Tri> currTri = triList[i];
+		if (ifLog)
+			qDebug() << "		tri : " << currTri->v[0] << " , " << currTri->v[1] << " , " << currTri->v[2];
+		for (size_t j = 0; j < 3; j++) {
+			Point p = pList[currTri->v[j]];
+			rObj.addV(glm::vec3(p.pos[0], p.pos[1], p.pos[2]));
+			rObj.addN(normal);
+		}
+	}
+}
+
 bool CAD::miniCDT::ifOnEdge(glm::vec2 & p1, glm::vec2 & p2, glm::vec2 & p)
 {
 	float dis, dis1, dis2;

@@ -5,6 +5,7 @@
 #include "DataStructure.h"
 #include "EulerOperator.h"
 #include "miniCDT.h"
+#include "ModelRenderingObject.h"
 #include "LOpenGL\LShaderProgram.h"
 
 using namespace std;
@@ -21,10 +22,15 @@ public:
 	void init();
 	void draw(LShaderProgram & shader);
 	void drawLine(LShaderProgram & shader);
+	void drawFace(LShaderProgram & shader);
+
 	void setupLineData();
 	void setupLineDataTest1();
 	void setupLineDataTest2();
 	void setupLineDataTestCDT1();
+
+	void setupFaceData();
+
 	bool addNewSolid(shared_ptr<Solid>& s);
 	void testModelCube();
 	void testModelCube2();
@@ -36,5 +42,6 @@ private:
 	EulerOperator eulerOP;
 	vector<Point> vertexData;
 	vector<vector<vector<Point>>> faceData;
+	ModelRenderingObject mObj;
 };
 

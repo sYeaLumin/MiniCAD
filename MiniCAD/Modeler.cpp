@@ -13,6 +13,7 @@ Modeler::~Modeler()
 void Modeler::init()
 {
 	initializeOpenGLFunctions();
+	mObj.init();
 }
 
 void Modeler::draw(LShaderProgram & shader)
@@ -96,6 +97,11 @@ void Modeler::drawLine(LShaderProgram & shader)
 		glVertex3f(onePoint.pos[0], onePoint.pos[1], onePoint.pos[2]);
 	}
 	glEnd();
+}
+
+void Modeler::drawFace(LShaderProgram & shader)
+{
+	mObj.draw(shader);
 }
 
 void Modeler::setupLineData()
@@ -244,6 +250,26 @@ void Modeler::setupLineDataTestCDT1()
 		}
 	}
 
+}
+
+void Modeler::setupFaceData()
+{
+	vertexData.clear();
+	shared_ptr<Solid> currSolid;
+	shared_ptr<Face> currFace;
+	double off = 0.2;
+	currSolid = solidList;
+	miniCDT cdt;
+	for (currSolid; currSolid != nullptr; currSolid = currSolid->next)
+	{
+		for (currFace = currSolid->sFaces; currFace != nullptr; currFace = currFace->next)
+		{
+			cdt.init(currFace);
+			cdt.Triangulate();
+			cdt.setUpFaceData(mObj);
+		}
+	}
+	mObj.createRenderBuffers();//£¡
 }
 
 bool Modeler::addNewSolid(shared_ptr<Solid>& s)

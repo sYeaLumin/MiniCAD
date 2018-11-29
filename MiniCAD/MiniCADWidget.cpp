@@ -10,7 +10,8 @@ MiniCADWidget::MiniCADWidget(QWidget *parent) :
 {
 	//modeler.testModelCube2();
 	modeler.testModelCubeWithHole2();
-	modeler.setupLineDataTestCDT1();
+
+	//modeler.setupLineDataTestCDT1();
 	//modeler.setupLineDataTest2();
 }
 
@@ -25,8 +26,11 @@ void MiniCADWidget::initializeGL()
 	camera.init(geometry().width(), geometry().height());
 	modeler.init();
 	Lineshader.init();
+	Faceshader.init();
 	glViewport(0, 0, geometry().width(), geometry().height());//?
 	glEnable(GL_MULTISAMPLE);
+
+	modeler.setupFaceData();
 }
 
 void MiniCADWidget::paintGL()
@@ -34,7 +38,8 @@ void MiniCADWidget::paintGL()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//draw
-	modeler.drawLine(Lineshader);
+	//modeler.drawLine(Lineshader);
+	modeler.drawFace(Faceshader);
 }
 
 void MiniCADWidget::resizeGL(int width, int height)

@@ -1,5 +1,5 @@
 #pragma once
-#include "D:\Projects\vs\MiniCAD\MiniCAD\LOpenGL\LShaderProgram.h"
+#include "LOpenGL\LShaderProgram.h"
 class FaceShaderProgram :
 	public LShaderProgram
 {
@@ -20,6 +20,6 @@ public:
 	}
 
 private:
-	glm::vec3 lightPos = glm::vec3(-2.0f, -3.0f, 5.0f);
+	glm::vec3 lightPos = glm::vec3(-2.0f, 3.0f, 5.0f);
 };
 

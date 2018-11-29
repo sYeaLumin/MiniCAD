@@ -20,7 +20,12 @@ public:
 		initializeOpenGLFunctions();
 		addShaderFromSourceFile(QOpenGLShader::Vertex, vsPath);
 		addShaderFromSourceFile(QOpenGLShader::Fragment, fsPath);
-		link();
+		if (link()) {
+			qDebug() << "			LShaderProgram : Link !";
+		}
+		else {
+			qDebug() << "			LShaderProgram : Link Failed !";
+		}
 	}
 	virtual void setUniform() = 0;
 

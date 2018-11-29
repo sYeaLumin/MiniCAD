@@ -1,5 +1,5 @@
 #pragma once
-#include "D:\Projects\vs\MiniCAD\MiniCAD\LOpenGL\LShaderProgram.h"
+#include "LOpenGL\LShaderProgram.h"
 class LineShaderProgram :
 	public LShaderProgram
 {

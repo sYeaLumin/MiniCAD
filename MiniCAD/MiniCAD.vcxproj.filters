@@ -54,6 +54,12 @@
     <ClCompile Include="miniCDT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LOpenGL\LRenderingObject.cpp">
+      <Filter>LOpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelRenderingObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MiniCAD.h">
@@ -95,9 +101,33 @@
     <ClInclude Include="EulerOperator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LOpenGL\LRenderingObject.h">
+      <Filter>LOpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="LineShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelRenderingObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LOpenGL\NoLight.frag" />
     <None Include="LOpenGL\NoLight.vert" />
+    <None Include="LOpenGL\Base.frag">
+      <Filter>LOpenGL</Filter>
+    </None>
+    <None Include="LOpenGL\Lights.frag">
+      <Filter>LOpenGL</Filter>
+    </None>
+    <None Include="LOpenGL\Base.vert">
+      <Filter>LOpenGL</Filter>
+    </None>
+    <None Include="LOpenGL\Lights.vert">
+      <Filter>LOpenGL</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include "DataStructure.h"
+#include "ModelRenderingObject.h"
 
 namespace CAD {
 	class Tri {
@@ -94,6 +95,7 @@ namespace CAD {
 		void Log();
 		void setUpLineDataTest1(vector<Point>& vertexData);
 		void setUpLineDataTest2(vector<Point>& vertexData);
+		void setUpFaceData(ModelRenderingObject & rObj);
 
 	private:
 		bool ifOnEdge(glm::vec2 & p1, glm::vec2 & p2, glm::vec2 & p);

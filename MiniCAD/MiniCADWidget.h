@@ -5,12 +5,12 @@
 #include <QMouseEvent>
 #include <qdebug.h>
 #include "LOpenGL\LCamera.h"
-#include "LOpenGL\LineShaderProgram.h"
-#include "LOpenGL\FaceShaderProgram.h"
+#include "LineShaderProgram.h"
+#include "FaceShaderProgram.h"
 #include "Modeler.h"
 
-const static char* const FaceVSPath = "./LOpenGL/Light.vert";
-const static char* const FaceFSPath = "./LOpenGL/Light.frag";
+const static char* const FaceVSPath = "./LOpenGL/Lights.vert";
+const static char* const FaceFSPath = "./LOpenGL/Lights.frag";
 const static char* const LineVSPath = "./LOpenGL/Base.vert";
 const static char* const LineFSPath = "./LOpenGL/Base.frag";
 
