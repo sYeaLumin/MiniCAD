@@ -20,7 +20,6 @@ public:
 	Modeler();
 	~Modeler();
 	void init();
-	void draw(LShaderProgram & shader);
 	void drawLine(LShaderProgram & shader);
 	void drawFace(LShaderProgram & shader);
 
@@ -36,6 +35,7 @@ public:
 	void testModelCube2();
 	void testModelCubeWithHole();
 	void testModelCubeWithHole2();
+	void testModelCubeWithHole3();
 
 private:
 	shared_ptr<Solid> solidList;

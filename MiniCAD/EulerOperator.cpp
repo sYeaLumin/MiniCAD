@@ -300,10 +300,11 @@ shared_ptr<Loop> EulerOperator::kemr(const Point & p1, const Point & p2, shared_
 			tmp = tmp->next;
 		} while (tmp->startVertex != v2);
 	}
-	newLoop->prev = lp;
+	//newLoop->prev = lp;//wrong!!!
 	shared_ptr<Loop> tmpL = lp;
 	while (tmpL->next)
 		tmpL = tmpL->next;
+	newLoop->prev = tmpL;
 	tmpL->next = newLoop;
 	newLoop->lFace = lp->lFace;
 	newLoop->next = nullptr;

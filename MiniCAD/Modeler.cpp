@@ -16,71 +16,6 @@ void Modeler::init()
 	mObj.init();
 }
 
-void Modeler::draw(LShaderProgram & shader)
-{
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	glEnable(GL_DEBUG_OUTPUT);
-	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_MULTISAMPLE);
-
-	shader.bind();
-	shader.setUniform();
-
-	//绘制开始
-	GLUtesselator* tessobj = gluNewTess();
-
-	if (!tessobj) return;
-
-	gluTessCallback(tessobj, GLU_TESS_VERTEX, (void (CALLBACK *)())vertexCallback);
-	gluTessCallback(tessobj, GLU_TESS_BEGIN, (void (CALLBACK *)())beginCallback);
-	gluTessCallback(tessobj, GLU_TESS_END, (void (CALLBACK *)())endCallback);
-	gluTessCallback(tessobj, GLU_TESS_ERROR, (void (CALLBACK *)())errorCallback);
-	gluTessCallback(tessobj, GLU_TESS_COMBINE, (void (CALLBACK *)())combineCallback);
-
-	for (int i = 0; i < faceData.size(); i++)
-	{
-		vector<vector<Point>> oneFaceData = faceData[i];
-
-		gluTessBeginPolygon(tessobj, NULL);
-
-		// outloope
-		gluTessBeginContour(tessobj);
-
-		vector<Point> outLoopData = oneFaceData[0];
-		for (int j = 0; j < outLoopData.size(); j++)
-		{
-			gluTessVertex(tessobj, outLoopData[j].pos, outLoopData[j].pos);
-			
-		}
-		gluTessEndContour(tessobj);
-
-		// inner loop
-		vector<Point> innerLoopData;
-		for (int j = 1; j < oneFaceData.size(); j++)
-		{
-			gluTessBeginContour(tessobj);
-			innerLoopData = oneFaceData[j];
-			for (int k = 0; k < innerLoopData.size(); k++)
-			{
-				gluTessVertex(tessobj, innerLoopData[k].pos, innerLoopData[k].pos);
-			}
-			gluTessEndContour(tessobj);
-		}
-
-		gluTessEndPolygon(tessobj);
-	}
-	gluDeleteTess(tessobj);
-
-	//绘制结束
-
-	shader.release();
-
-	glDisable(GL_MULTISAMPLE);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_DEBUG_OUTPUT);
-}
-
 void Modeler::drawLine(LShaderProgram & shader)
 {
 	//modeler.setupLineData();
@@ -97,6 +32,8 @@ void Modeler::drawLine(LShaderProgram & shader)
 		glVertex3f(onePoint.pos[0], onePoint.pos[1], onePoint.pos[2]);
 	}
 	glEnd();
+
+	shader.release();
 }
 
 void Modeler::drawFace(LShaderProgram & shader)
@@ -254,7 +191,6 @@ void Modeler::setupLineDataTestCDT1()
 
 void Modeler::setupFaceData()
 {
-	vertexData.clear();
 	shared_ptr<Solid> currSolid;
 	shared_ptr<Face> currFace;
 	double off = 0.2;
@@ -433,6 +369,68 @@ void Modeler::testModelCubeWithHole2()
 	swapUpLinkForLoop(inLoop, inLoop2);
 	sweepLoopList.push_back(inLoop);
 	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 2.0);
+
+	qDebug() << "Finish !";
+}
+
+void Modeler::testModelCubeWithHole3()
+{
+	Point subface[4] = {
+		Point(1.0, 1.0, -0.5),
+		Point(-1.0, 1.0, -0.5),
+		Point(-1.0, -1.0, -0.5),
+		Point(1.0, -1.0, -0.5)
+	};
+	Point subHole[4] = {
+		Point(0.0, 0.0, -0.5),
+		Point(-0.5, 0.0, -0.5),
+		Point(-0.5, -0.5, -0.5),
+		Point(0.0, -0.5, -0.5)
+	};
+	Point subHole2[4] = {
+		Point(0.75, 0.75, -0.5),
+		Point(0.5, 0.75, -0.5),
+		Point(0.5, -0.25, -0.5),
+		Point(0.75, -0.25, -0.5)
+	};
+	vector<shared_ptr<Loop>> sweepLoopList;
+	//外环
+	shared_ptr<Solid> currSolid = eulerOP.mvfs(subface[0]);
+	if (!addNewSolid(currSolid)) {
+		cout << "Modeler::testModelCube : mvfs failed !" << endl;
+		return;
+	}
+	shared_ptr<HalfEdge> currHalfEdge;
+	currHalfEdge = eulerOP.mev(subface[0], subface[1], currSolid->sFaces->fLoops);//Loop？
+	currHalfEdge = eulerOP.mev(subface[1], subface[2], currHalfEdge->heLoop.lock());
+	currHalfEdge = eulerOP.mev(subface[2], subface[3], currHalfEdge->heLoop.lock());
+
+	sweepLoopList.push_back(eulerOP.mef(subface[3], subface[0], currHalfEdge->heLoop.lock()));
+	//内环1
+	eulerOP.mev(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	shared_ptr<Loop> inLoop11;
+	inLoop11 = eulerOP.kemr(subface[0], subHole[0], currSolid->sFaces->fLoops);
+	eulerOP.mev(subHole[0], subHole[1], inLoop11);
+	eulerOP.mev(subHole[1], subHole[2], inLoop11);
+	eulerOP.mev(subHole[2], subHole[3], inLoop11);
+	shared_ptr<Loop> inLoop12 = eulerOP.mef(subHole[3], subHole[0], inLoop11);
+	
+	swapUpLinkForLoop(inLoop11, inLoop12);
+	sweepLoopList.push_back(inLoop11);
+	
+	//内环2
+	eulerOP.mev(subface[0], subHole2[0], currSolid->sFaces->fLoops);
+	shared_ptr<Loop> inLoop21;
+	inLoop21 = eulerOP.kemr(subface[0], subHole2[0], currSolid->sFaces->fLoops);
+	eulerOP.mev(subHole2[0], subHole2[1], inLoop21);
+	eulerOP.mev(subHole2[1], subHole2[2], inLoop21);
+	eulerOP.mev(subHole2[2], subHole2[3], inLoop21);
+	shared_ptr<Loop> inLoop22 = eulerOP.mef(subHole2[3], subHole2[0], inLoop21);
+
+	swapUpLinkForLoop(inLoop21, inLoop22);
+	sweepLoopList.push_back(inLoop21);
+
+	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 1.0);
 
 	qDebug() << "Finish !";
 }

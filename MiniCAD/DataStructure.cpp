@@ -185,6 +185,7 @@ void CAD::swapUpLinkForLoop(shared_ptr<Loop>& lp1, shared_ptr<Loop>& lp2)
 		qDebug() << "FUNC swapLoop : illegal !";
 		return;
 	}
+	shared_ptr<Face> Face1 = lp1->lFace.lock();
 	shared_ptr<Face> Face2 = lp2->lFace.lock();
 	lp1->prev->next = lp2;
 	Face2->fLoops = lp1;

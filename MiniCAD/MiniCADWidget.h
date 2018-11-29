@@ -3,6 +3,7 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QMouseEvent>
+#include <QCheckBox>
 #include <qdebug.h>
 #include "LOpenGL\LCamera.h"
 #include "LineShaderProgram.h"
@@ -39,6 +40,11 @@ protected:
 	void mouseMoveEvent(QMouseEvent *mouseEvent) override;
 	void wheelEvent(QWheelEvent *wheelEvent) override;
 
+public slots:
+	void onDrawLinesCheckBoxSlot(bool checkState);
+	void onDrawFacesCheckBoxSlot(bool checkState);
+
+
 private:
 	void cameraOperate(QMouseEvent * mouseEvent, MouseActionType type);
 
@@ -47,5 +53,7 @@ private:
 	LineShaderProgram Lineshader;
 	FaceShaderProgram Faceshader;
 	Modeler modeler;
+	bool ifDrawLines = false;
+	bool ifDrawFace = false;
 };
 

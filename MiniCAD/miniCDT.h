@@ -70,6 +70,18 @@ namespace CAD {
 			v[0] = v1;
 			v[1] = v2;
 		}
+		friend bool operator<(const constraintEdge& e1, const constraintEdge& e2) {
+			if (e1.v[0] < e2.v[0])
+				return true;
+			else if (e1.v[0] == e2.v[0]) {
+				if (e1.v[1] < e2.v[1])
+					return true;
+				else
+					return false;
+			}
+			else
+				return false;
+		}
 	};
 	class miniCDT
 	{
@@ -80,6 +92,7 @@ namespace CAD {
 		vector<glm::vec2> vList;
 		vector<shared_ptr<Tri>> triList;
 		vector<vector<constraintEdge>> boundary;
+		set<constraintEdge> boundSet;
 
 	private:
 		glm::vec3 front, right;

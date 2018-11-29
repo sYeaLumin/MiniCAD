@@ -19,9 +19,13 @@ void CAD::miniCDT::init(shared_ptr<Face>& face)
 		{
 			pList.push_back(currHE->startVertex->p);
 			conE.push_back(constraintEdge(pList.size() - 2, pList.size() - 1));
+			boundSet.insert(constraintEdge(pList.size() - 2, pList.size() - 1));
+			boundSet.insert(constraintEdge(pList.size() - 1, pList.size() - 2));
 			currHE = currHE->next;
 		}
 		conE.push_back(constraintEdge(pList.size() - 1, startIdx));
+		boundSet.insert(constraintEdge(pList.size() - 1, startIdx));
+		boundSet.insert(constraintEdge(startIdx, pList.size() - 1));
 		boundary.push_back(conE);
 	}
 	//¼ÆËãÃæµÄnormal
@@ -376,8 +380,14 @@ bool CAD::miniCDT::ifInCircle(Circle & c, glm::vec2 & p)
 
 bool CAD::miniCDT::ifBEdge(int v1, int v2)
 {
+	/*
 	if (v1 >= pList.size() || v2 >= pList.size()) return false;
-	return (abs(v1 - v2) == 1 || abs(v1 - v2) == pList.size() - 1);
+	return (abs(v1 - v2) == 1 || abs(v1 - v2) == pList.size() - 1);*/
+	if (v1 >= pList.size() || v2 >= pList.size()) return false;
+	if (boundSet.find(constraintEdge(v1, v2)) != boundSet.end())
+		return true;
+	else
+		return false;
 }
 
 void CAD::miniCDT::swapTest(shared_ptr<Tri>& t, int e)

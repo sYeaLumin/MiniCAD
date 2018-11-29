@@ -9,10 +9,8 @@ MiniCADWidget::MiniCADWidget(QWidget *parent) :
 	Faceshader(FaceVSPath, FaceFSPath, camera)
 {
 	//modeler.testModelCube2();
-	modeler.testModelCubeWithHole2();
-
-	//modeler.setupLineDataTestCDT1();
-	//modeler.setupLineDataTest2();
+	//modeler.testModelCubeWithHole2();
+	modeler.testModelCubeWithHole3();
 }
 
 
@@ -30,7 +28,10 @@ void MiniCADWidget::initializeGL()
 	glViewport(0, 0, geometry().width(), geometry().height());//?
 	glEnable(GL_MULTISAMPLE);
 
-	modeler.setupFaceData();
+	if(ifDrawLines)
+		modeler.setupLineData();
+	if(ifDrawFace)
+		modeler.setupFaceData();
 }
 
 void MiniCADWidget::paintGL()
@@ -38,8 +39,10 @@ void MiniCADWidget::paintGL()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//draw
-	//modeler.drawLine(Lineshader);
-	modeler.drawFace(Faceshader);
+	if (ifDrawLines)
+		modeler.drawLine(Lineshader);
+	if (ifDrawFace)
+		modeler.drawFace(Faceshader);
 }
 
 void MiniCADWidget::resizeGL(int width, int height)
@@ -76,6 +79,21 @@ void MiniCADWidget::wheelEvent(QWheelEvent * wheelEvent)
 	makeCurrent();
 	int delta = wheelEvent->delta();
 	camera.zoom(delta);
+	update();
+}
+
+void MiniCADWidget::onDrawLinesCheckBoxSlot(bool checkState) {
+	makeCurrent();
+	ifDrawLines = checkState;
+	modeler.setupLineData();
+	update();
+}
+
+void MiniCADWidget::onDrawFacesCheckBoxSlot(bool checkState)
+{
+	makeCurrent();
+	ifDrawFace = checkState;
+	modeler.setupFaceData();
 	update();
 }
 
