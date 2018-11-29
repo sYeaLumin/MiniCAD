@@ -10,5 +10,4 @@ MiniCAD::MiniCAD(QWidget *parent)
 	
 
 	ui.checkBox_lineShow->setCheckState(Qt::Checked);
-	//ui.checkBox_volumeShow->setCheckState(Qt::Checked);
 }

@@ -430,7 +430,7 @@ void Modeler::testModelCubeWithHole3()
 	swapUpLinkForLoop(inLoop21, inLoop22);
 	sweepLoopList.push_back(inLoop21);
 
-	eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 1.0);
+	//eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 1.0);
 
 	qDebug() << "Finish !";
 }
