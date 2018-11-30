@@ -29,6 +29,12 @@ class MiniCADWidget :
 public:
 	MiniCADWidget(QWidget *parent = nullptr);//QWidget *parent£¿
 	~MiniCADWidget();
+	QString subfacePointShowData();
+	void modelSubfaceBuild();
+	void modelSubfaceReset();
+	void modelSubfaceAddOutLoopPoint(float x, float y, float z);
+	void modelSubfaceAddInLoopPoint(float x, float y, float z);
+	void modelSubfaceNewInLoopPoint();
 
 protected:
 	void initializeGL() override;

@@ -443,52 +443,26 @@ void Modeler::testModelCubeWithHole3()
 
 void Modeler::testModel()
 {
-	vector<Point> subface;
-	subface.push_back(Point(1.0, 1.0, -0.5));
-	subface.push_back(Point(-1.0, 1.0, -0.5));
-	subface.push_back(Point(-1.0, -1.0, -0.5));
-	subface.push_back(Point(1.0, -1.0, -0.5));
-
-	vector<vector<Point>> subHoles;
-	vector<Point> subHole1;
-	subHole1.push_back(Point(0.0, 0.0, -0.5));
-	subHole1.push_back(Point(-0.5, 0.0, -0.5));
-	subHole1.push_back(Point(-0.5, -0.5, -0.5));
-	subHole1.push_back(Point(0.0, -0.5, -0.5));
-	subHoles.push_back(subHole1);
-	vector<Point> subHole2;
-	subHole2.push_back(Point(0.75, 0.75, -0.5));
-	subHole2.push_back(Point(0.5, 0.75, -0.5));
-	subHole2.push_back(Point(0.4, 0.5, -0.5)); //
-	subHole2.push_back(Point(0.5, -0.25, -0.5));
-	subHole2.push_back(Point(0.75, -0.25, -0.5));
-	subHole2.push_back(Point(0.85, 0.0, -0.5));
-	subHoles.push_back(subHole2);
-	vector<Point> subHole3;
-	subHole3.push_back(Point(0.2, 0.55, -0.5));
-	subHole3.push_back(Point(-0.3, 0.8, -0.5));
-	subHole3.push_back(Point(-0.6, 0.2, -0.5)); //
-	subHoles.push_back(subHole3);
-
+	//testModelData();
 	//外环
-	shared_ptr<Solid> currSolid = eulerOP.mvfs(subface[0]);
+	shared_ptr<Solid> currSolid = eulerOP.mvfs(subFace[0]);
 	if (!addNewSolid(currSolid)) {
 		cout << "Modeler::testModelCube : mvfs failed !" << endl;
 		return;
 	}
 
 	shared_ptr<HalfEdge> currHalfEdge;
-	for (size_t i = 0; i < subface.size()-1; i++) {
-		currHalfEdge = eulerOP.mev(subface[i], subface[i + 1], currSolid->sFaces->fLoops);
+	for (size_t i = 0; i < subFace.size()-1; i++) {
+		currHalfEdge = eulerOP.mev(subFace[i], subFace[i + 1], currSolid->sFaces->fLoops);
 	}
-	sweepLoopList.push_back(eulerOP.mef(subface[subface.size() - 1], subface[0], currHalfEdge->heLoop.lock()));
+	sweepLoopList.push_back(eulerOP.mef(subFace[subFace.size() - 1], subFace[0], currHalfEdge->heLoop.lock()));
 
 	//内环
 	for (size_t i = 0; i < subHoles.size(); i++) {
 		vector<Point> currHole = subHoles[i];
-		eulerOP.mev(subface[0], currHole[0], currSolid->sFaces->fLoops);
+		eulerOP.mev(subFace[0], currHole[0], currSolid->sFaces->fLoops);
 		shared_ptr<Loop> inLoop1;
-		inLoop1 = eulerOP.kemr(subface[0], currHole[0], currSolid->sFaces->fLoops);
+		inLoop1 = eulerOP.kemr(subFace[0], currHole[0], currSolid->sFaces->fLoops);
 		for (size_t j = 0; j < currHole.size() - 1; j++) {
 			eulerOP.mev(currHole[j], currHole[j + 1], inLoop1);
 		}
@@ -497,4 +471,36 @@ void Modeler::testModel()
 		sweepLoopList.push_back(inLoop1);
 	}
 	qDebug() << "Finish !";
+}
+
+void Modeler::testModelData()
+{
+	subFace.clear();
+	subFace.push_back(Point(1.0, 1.0, -0.5));
+	subFace.push_back(Point(-1.0, 1.0, -0.5));
+	subFace.push_back(Point(-1.0, -1.0, -0.5));
+	subFace.push_back(Point(1.0, -1.0, -0.5));
+
+	subHoles.clear();
+	subHoleCurr.clear();
+	subHoleCurr.push_back(Point(0.0, 0.0, -0.5));
+	subHoleCurr.push_back(Point(-0.5, 0.0, -0.5));
+	subHoleCurr.push_back(Point(-0.5, -0.5, -0.5));
+	subHoleCurr.push_back(Point(0.0, -0.5, -0.5));
+	subHoles.push_back(subHoleCurr);
+	
+	subHoleCurr.clear();
+	subHoleCurr.push_back(Point(0.75, 0.75, -0.5));
+	subHoleCurr.push_back(Point(0.5, 0.75, -0.5));
+	subHoleCurr.push_back(Point(0.4, 0.5, -0.5)); //
+	subHoleCurr.push_back(Point(0.5, -0.25, -0.5));
+	subHoleCurr.push_back(Point(0.75, -0.25, -0.5));
+	subHoleCurr.push_back(Point(0.85, 0.0, -0.5));
+	subHoles.push_back(subHoleCurr);
+	
+	subHoleCurr.clear();
+	subHoleCurr.push_back(Point(0.2, 0.55, -0.5));
+	subHoleCurr.push_back(Point(-0.3, 0.8, -0.5));
+	subHoleCurr.push_back(Point(-0.6, 0.2, -0.5)); //
+	//subHoles.push_back(subHoleCurr);
 }

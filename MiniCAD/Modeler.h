@@ -39,7 +39,7 @@ public:
 	void testModelCubeWithHole2();
 	void testModelCubeWithHole3();
 	void testModel();
-
+	void testModelData();
 
 private:
 	shared_ptr<Solid> solidList;
@@ -48,5 +48,10 @@ private:
 	vector<vector<vector<Point>>> faceData;
 	ModelRenderingObject mObj;
 	vector<shared_ptr<Loop>> sweepLoopList;
+
+public:
+	vector<Point> subFace;
+	vector<vector<Point>> subHoles;
+	vector<Point> subHoleCurr;
 };
 

@@ -11,8 +11,17 @@ public:
 	MiniCAD(QWidget *parent = Q_NULLPTR);
 
 public slots:
+	void checkBoxLine();
+	void checkBoxFace();
 	void pushButtonSweep();
+	void pushButtonSubfaceReset();
+	void pushButtonSubfaceBuild();
+	void pushButtonSubfaceOutLoopAdd();
+	void pushButtonSubfaceInLoopAdd();
+	void pushButtonSubfaceInLoopNew();
 
 private:
 	Ui::MiniCADClass ui;
+
+	void showSubfacePoint();
 };
