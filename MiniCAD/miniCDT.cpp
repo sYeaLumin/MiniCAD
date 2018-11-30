@@ -177,12 +177,12 @@ void CAD::miniCDT::setUpLineDataTest1(vector<Point>& vertexData)
 	}
 }
 
-void CAD::miniCDT::setUpLineDataTest2(vector<Point>& vertexData)
+void CAD::miniCDT::setUpLineDataCDT(vector<Point>& vertexData)
 {
 	if (ifLog)
 		qDebug() << "FUNC setUpLineDataTest2 : ";
 	Point offset(normal.x, normal.y, normal.z);
-	double off = 0.2;
+	double off = 0.1;
 	for (size_t i = 0; i < triList.size(); i++) {
 		shared_ptr<Tri> currTri = triList[i];
 		if (ifLog)

@@ -107,7 +107,7 @@ namespace CAD {
 
 		void Log();
 		void setUpLineDataTest1(vector<Point>& vertexData);
-		void setUpLineDataTest2(vector<Point>& vertexData);
+		void setUpLineDataCDT(vector<Point>& vertexData);
 		void setUpFaceData(ModelRenderingObject & rObj);
 
 	private:

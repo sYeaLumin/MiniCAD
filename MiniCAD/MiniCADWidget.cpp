@@ -83,6 +83,9 @@ void MiniCADWidget::changeDrawType(int type)
 		modeler.setupLineData();
 		break;
 	case 1:
+		ifDrawLines = true;
+		ifDrawFace = false;
+		modeler.setupLineDataCDT();
 		break;
 	case 2:
 		ifDrawLines = false;

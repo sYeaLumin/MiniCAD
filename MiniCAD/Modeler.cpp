@@ -169,7 +169,7 @@ void Modeler::setupLineDataTest2()
 	}
 }
 
-void Modeler::setupLineDataTestCDT1()
+void Modeler::setupLineDataCDT()
 {
 	vertexData.clear();
 	shared_ptr<Solid> currSolid;
@@ -183,7 +183,7 @@ void Modeler::setupLineDataTestCDT1()
 		{
 			cdt.init(currFace);
 			cdt.Triangulate();
-			cdt.setUpLineDataTest2(vertexData);
+			cdt.setUpLineDataCDT(vertexData);
 		}
 	}
 
@@ -480,6 +480,7 @@ void Modeler::testModelData()
 	subFace.push_back(Point(-1.0, 1.0, -0.5));
 	subFace.push_back(Point(-1.0, -1.0, -0.5));
 	subFace.push_back(Point(1.0, -1.0, -0.5));
+	subFace.push_back(Point(1.2, 0.0, -0.5));
 
 	subHoles.clear();
 	subHoleCurr.clear();
@@ -492,7 +493,7 @@ void Modeler::testModelData()
 	subHoleCurr.clear();
 	subHoleCurr.push_back(Point(0.75, 0.75, -0.5));
 	subHoleCurr.push_back(Point(0.5, 0.75, -0.5));
-	subHoleCurr.push_back(Point(0.4, 0.5, -0.5)); //
+	//subHoleCurr.push_back(Point(0.4, 0.5, -0.5)); 
 	subHoleCurr.push_back(Point(0.5, -0.25, -0.5));
 	subHoleCurr.push_back(Point(0.75, -0.25, -0.5));
 	subHoleCurr.push_back(Point(0.85, 0.0, -0.5));

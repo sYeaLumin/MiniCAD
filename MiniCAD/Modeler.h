@@ -26,7 +26,7 @@ public:
 	void setupLineData();
 	void setupLineDataTest1();
 	void setupLineDataTest2();
-	void setupLineDataTestCDT1();
+	void setupLineDataCDT();
 
 	void setupFaceData();
 
