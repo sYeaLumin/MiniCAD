@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QButtonGroup>
 #include "ui_MiniCAD.h"
 
 class MiniCAD : public QMainWindow
@@ -11,8 +12,7 @@ public:
 	MiniCAD(QWidget *parent = Q_NULLPTR);
 
 public slots:
-	void checkBoxLine();
-	void checkBoxFace();
+	void changeShowType();
 	void pushButtonSweep();
 	void pushButtonSubfaceReset();
 	void pushButtonSubfaceBuild();
@@ -22,6 +22,7 @@ public slots:
 
 private:
 	Ui::MiniCADClass ui;
+	QButtonGroup *bg;
 
 	void showSubfacePoint();
 };

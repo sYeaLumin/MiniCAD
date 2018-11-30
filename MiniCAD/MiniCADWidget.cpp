@@ -72,6 +72,29 @@ QString MiniCADWidget::subfacePointShowData()
 	return QString(show.c_str());
 }
 
+void MiniCADWidget::changeDrawType(int type)
+{
+	makeCurrent();
+	switch (type)
+	{
+	case 0:
+		ifDrawLines = true;
+		ifDrawFace = false;
+		modeler.setupLineData();
+		break;
+	case 1:
+		break;
+	case 2:
+		ifDrawLines = false;
+		ifDrawFace = true;
+		modeler.setupFaceData();
+		break;
+	default:
+		break;
+	}
+	update();
+}
+
 void MiniCADWidget::modelSubfaceBuild()
 {
 	makeCurrent();

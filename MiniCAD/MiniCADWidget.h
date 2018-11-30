@@ -30,6 +30,7 @@ public:
 	MiniCADWidget(QWidget *parent = nullptr);//QWidget *parent£¿
 	~MiniCADWidget();
 	QString subfacePointShowData();
+	void changeDrawType(int type);
 	void modelSubfaceBuild();
 	void modelSubfaceReset();
 	void modelSubfaceAddOutLoopPoint(float x, float y, float z);
@@ -60,7 +61,7 @@ private:
 	LineShaderProgram Lineshader;
 	FaceShaderProgram Faceshader;
 	Modeler modeler;
-	bool ifDrawLines = false;
+	bool ifDrawLines = true;
 	bool ifDrawFace = false;
 };
 

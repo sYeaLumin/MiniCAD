@@ -14,7 +14,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -25,6 +24,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -49,8 +49,9 @@ public:
     QLabel *label_2;
     QPushButton *pushButton_sweep;
     QGroupBox *showBox;
-    QCheckBox *checkBox_lineShow;
-    QCheckBox *checkBox_volumeShow;
+    QRadioButton *radioButton_lineShow;
+    QRadioButton *radioButton_volumeShow;
+    QRadioButton *radioButton_CDTlineShow;
     QGroupBox *groupBox;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
@@ -100,7 +101,7 @@ public:
         showWidget->setGeometry(QRect(10, 10, 841, 631));
         sweepBox = new QGroupBox(centralWidget);
         sweepBox->setObjectName(QStringLiteral("sweepBox"));
-        sweepBox->setGeometry(QRect(860, 95, 171, 171));
+        sweepBox->setGeometry(QRect(860, 130, 171, 171));
         QFont font;
         font.setFamily(QStringLiteral("Adobe Arabic"));
         font.setPointSize(12);
@@ -161,27 +162,33 @@ public:
 
         showBox = new QGroupBox(centralWidget);
         showBox->setObjectName(QStringLiteral("showBox"));
-        showBox->setGeometry(QRect(860, 10, 171, 75));
+        showBox->setGeometry(QRect(860, 10, 171, 111));
         showBox->setFont(font);
-        checkBox_lineShow = new QCheckBox(showBox);
-        checkBox_lineShow->setObjectName(QStringLiteral("checkBox_lineShow"));
-        checkBox_lineShow->setGeometry(QRect(25, 22, 121, 21));
+        radioButton_lineShow = new QRadioButton(showBox);
+        radioButton_lineShow->setObjectName(QStringLiteral("radioButton_lineShow"));
+        radioButton_lineShow->setGeometry(QRect(25, 22, 121, 21));
         QFont font1;
         font1.setPointSize(11);
-        checkBox_lineShow->setFont(font1);
-        checkBox_volumeShow = new QCheckBox(showBox);
-        checkBox_volumeShow->setObjectName(QStringLiteral("checkBox_volumeShow"));
-        checkBox_volumeShow->setGeometry(QRect(25, 45, 121, 21));
-        checkBox_volumeShow->setFont(font1);
-        checkBox_volumeShow->setMouseTracking(true);
-        checkBox_volumeShow->setTristate(false);
+        radioButton_lineShow->setFont(font1);
+        radioButton_lineShow->setChecked(true);
+        radioButton_volumeShow = new QRadioButton(showBox);
+        radioButton_volumeShow->setObjectName(QStringLiteral("radioButton_volumeShow"));
+        radioButton_volumeShow->setGeometry(QRect(25, 78, 121, 21));
+        radioButton_volumeShow->setFont(font1);
+        radioButton_volumeShow->setMouseTracking(true);
+        radioButton_volumeShow->setCheckable(true);
+        radioButton_CDTlineShow = new QRadioButton(showBox);
+        radioButton_CDTlineShow->setObjectName(QStringLiteral("radioButton_CDTlineShow"));
+        radioButton_CDTlineShow->setGeometry(QRect(25, 50, 141, 21));
+        radioButton_CDTlineShow->setFont(font1);
+        radioButton_CDTlineShow->setCheckable(true);
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(860, 280, 171, 201));
+        groupBox->setGeometry(QRect(860, 310, 171, 201));
         groupBox->setFont(font);
         horizontalLayoutWidget = new QWidget(groupBox);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(14, 160, 151, 41));
+        horizontalLayoutWidget->setGeometry(QRect(10, 160, 151, 31));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setSpacing(3);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -199,7 +206,7 @@ public:
 
         gridLayoutWidget_2 = new QWidget(groupBox);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(13, 30, 151, 120));
+        gridLayoutWidget_2->setGeometry(QRect(9, 30, 151, 120));
         gridLayout = new QGridLayout(gridLayoutWidget_2);
         gridLayout->setSpacing(3);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -371,8 +378,9 @@ public:
         label_2->setText(QApplication::translate("MiniCADClass", " Y\357\274\232", Q_NULLPTR));
         pushButton_sweep->setText(QApplication::translate("MiniCADClass", "Sweep", Q_NULLPTR));
         showBox->setTitle(QApplication::translate("MiniCADClass", "\346\230\276\347\244\272", Q_NULLPTR));
-        checkBox_lineShow->setText(QApplication::translate("MiniCADClass", "\347\272\277\346\241\206\346\230\276\347\244\272", Q_NULLPTR));
-        checkBox_volumeShow->setText(QApplication::translate("MiniCADClass", "\345\256\236\344\275\223\346\230\276\347\244\272", Q_NULLPTR));
+        radioButton_lineShow->setText(QApplication::translate("MiniCADClass", "\347\272\277\346\241\206\346\230\276\347\244\272", Q_NULLPTR));
+        radioButton_volumeShow->setText(QApplication::translate("MiniCADClass", "\345\256\236\344\275\223\346\230\276\347\244\272", Q_NULLPTR));
+        radioButton_CDTlineShow->setText(QApplication::translate("MiniCADClass", "\347\272\277\346\241\206\346\230\276\347\244\272(CDT)", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("MiniCADClass", "\345\272\225\351\235\242", Q_NULLPTR));
         SubfaceButton_Reset->setText(QApplication::translate("MiniCADClass", "Reset", Q_NULLPTR));
         SubfaceButton_Build->setText(QApplication::translate("MiniCADClass", "Build", Q_NULLPTR));

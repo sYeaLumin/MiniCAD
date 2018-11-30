@@ -5,9 +5,10 @@ MiniCAD::MiniCAD(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.checkBox_lineShow, SIGNAL(toggled(bool)), ui.showWidget, SLOT(onDrawLinesCheckBoxSlot(bool)));
-	connect(ui.checkBox_volumeShow, SIGNAL(toggled(bool)), ui.showWidget, SLOT(onDrawFacesCheckBoxSlot(bool)));
-	
+	connect(ui.radioButton_lineShow, SIGNAL(clicked()), this, SLOT(changeShowType()));
+	connect(ui.radioButton_CDTlineShow, SIGNAL(clicked()), this, SLOT(changeShowType()));
+	connect(ui.radioButton_volumeShow, SIGNAL(clicked()), this, SLOT(changeShowType()));
+
 	connect(ui.pushButton_sweep, SIGNAL(clicked()), this, SLOT(pushButtonSweep()));
 
 	//subface
@@ -17,42 +18,28 @@ MiniCAD::MiniCAD(QWidget *parent)
 	connect(ui.InLoopButton_Add, SIGNAL(clicked()), this, SLOT(pushButtonSubfaceInLoopAdd()));
 	connect(ui.InLoopButton_New, SIGNAL(clicked()), this, SLOT(pushButtonSubfaceInLoopNew()));
 
-	ui.checkBox_lineShow->setCheckState(Qt::Checked);
 	ui.lineEdit_sweep_x->setText(QString("0.0"));
 	ui.lineEdit_sweep_y->setText(QString("0.0"));
 	ui.lineEdit_sweep_z->setText(QString("1.0"));
 	ui.lineEdit_sweep_l->setText(QString("1.0"));
 
-	ui.checkBox_volumeShow->setEnabled(false);
+	bg = new QButtonGroup(this);
+	bg->addButton(ui.radioButton_lineShow, 0);
+	bg->addButton(ui.radioButton_CDTlineShow, 1);
+	bg->addButton(ui.radioButton_volumeShow, 2);
+
+	ui.radioButton_CDTlineShow->setEnabled(false);
+	ui.radioButton_volumeShow->setEnabled(false);
 	ui.pushButton_sweep->setEnabled(false);
 
 	showSubfacePoint();
 }
 
-void MiniCAD::checkBoxLine()
+void MiniCAD::changeShowType()
 {
-	bool state = ui.checkBox_lineShow->checkState();
-	if (state) {
-		ui.checkBox_lineShow->setCheckState(Qt::Unchecked);
-		ui.checkBox_volumeShow->setCheckState(Qt::Checked);
-	}
-	else {
-		ui.checkBox_volumeShow->setCheckState(Qt::Unchecked);
-		ui.checkBox_lineShow->setCheckState(Qt::Checked);
-	}
-}
-
-void MiniCAD::checkBoxFace()
-{
-	bool state = ui.checkBox_volumeShow->checkState();
-	if (!state) {
-		ui.checkBox_lineShow->setCheckState(Qt::Unchecked);
-		ui.checkBox_volumeShow->setCheckState(Qt::Checked);
-	}
-	else {
-		ui.checkBox_volumeShow->setCheckState(Qt::Unchecked);
-		ui.checkBox_lineShow->setCheckState(Qt::Checked);
-	}
+	int id = bg->checkedId();
+	qDebug() << "changeShowType() : " << id;
+	ui.showWidget->changeDrawType(id);
 }
 
 void MiniCAD::pushButtonSweep() {
@@ -64,7 +51,8 @@ void MiniCAD::pushButtonSweep() {
 	qDebug() << "MiniCAD : Click pushButton_sweep !";
 	//qDebug() << "		x : " << x << " y : " << y << " z : " << z << "l : " << l;
 	ui.showWidget->buttonSweep(x, y, z, l);
-	ui.checkBox_volumeShow->setEnabled(true);
+	ui.radioButton_CDTlineShow->setEnabled(true);
+	ui.radioButton_volumeShow->setEnabled(true);
 }
 
 void MiniCAD::pushButtonSubfaceReset()
