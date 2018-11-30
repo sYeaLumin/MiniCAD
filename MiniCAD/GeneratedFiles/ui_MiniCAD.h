@@ -61,7 +61,6 @@ public:
     QGridLayout *gridLayout;
     QPushButton *OutLoopButton_Add;
     QPushButton *InLoopButton_New;
-    QPushButton *OutLoopButton_Reset;
     QPushButton *InLoopButton_Add;
     QLabel *label;
     QLabel *label_5;
@@ -84,6 +83,7 @@ public:
     QLabel *label_12;
     QLineEdit *InLoopInput_z;
     QLabel *SubfacePointShowLabel;
+    QLabel *label_tips;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QToolBar *mainToolBar;
@@ -94,6 +94,8 @@ public:
         if (MiniCADClass->objectName().isEmpty())
             MiniCADClass->setObjectName(QStringLiteral("MiniCADClass"));
         MiniCADClass->resize(1046, 700);
+        MiniCADClass->setMinimumSize(QSize(1046, 700));
+        MiniCADClass->setMaximumSize(QSize(1046, 700));
         centralWidget = new QWidget(MiniCADClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         showWidget = new MiniCADWidget(centralWidget);
@@ -222,11 +224,6 @@ public:
 
         gridLayout->addWidget(InLoopButton_New, 3, 1, 1, 1);
 
-        OutLoopButton_Reset = new QPushButton(gridLayoutWidget_2);
-        OutLoopButton_Reset->setObjectName(QStringLiteral("OutLoopButton_Reset"));
-
-        gridLayout->addWidget(OutLoopButton_Reset, 1, 1, 1, 1);
-
         InLoopButton_Add = new QPushButton(gridLayoutWidget_2);
         InLoopButton_Add->setObjectName(QStringLiteral("InLoopButton_Add"));
 
@@ -347,6 +344,10 @@ public:
         SubfacePointShowLabel->setGeometry(QRect(700, 20, 131, 521));
         SubfacePointShowLabel->setContextMenuPolicy(Qt::DefaultContextMenu);
         SubfacePointShowLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        label_tips = new QLabel(centralWidget);
+        label_tips->setObjectName(QStringLiteral("label_tips"));
+        label_tips->setGeometry(QRect(860, 520, 171, 121));
+        label_tips->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         MiniCADClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MiniCADClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -386,7 +387,6 @@ public:
         SubfaceButton_Build->setText(QApplication::translate("MiniCADClass", "Build", Q_NULLPTR));
         OutLoopButton_Add->setText(QApplication::translate("MiniCADClass", "Add", Q_NULLPTR));
         InLoopButton_New->setText(QApplication::translate("MiniCADClass", "New", Q_NULLPTR));
-        OutLoopButton_Reset->setText(QApplication::translate("MiniCADClass", "Reset", Q_NULLPTR));
         InLoopButton_Add->setText(QApplication::translate("MiniCADClass", "Add", Q_NULLPTR));
         label->setText(QApplication::translate("MiniCADClass", "OutLoop:", Q_NULLPTR));
         label_5->setText(QApplication::translate("MiniCADClass", "InLoop:", Q_NULLPTR));
@@ -397,6 +397,7 @@ public:
         label_11->setText(QApplication::translate("MiniCADClass", "Y", Q_NULLPTR));
         label_12->setText(QApplication::translate("MiniCADClass", "Z", Q_NULLPTR));
         SubfacePointShowLabel->setText(QApplication::translate("MiniCADClass", "Subface Point : ", Q_NULLPTR));
+        label_tips->setText(QApplication::translate("MiniCADClass", "Tips:", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("MiniCADClass", "File", Q_NULLPTR));
     } // retranslateUi
 

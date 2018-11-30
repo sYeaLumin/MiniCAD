@@ -47,9 +47,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent *mouseEvent) override;
 	void wheelEvent(QWheelEvent *wheelEvent) override;
 
-public slots:
-	void onDrawLinesCheckBoxSlot(bool checkState);
-	void onDrawFacesCheckBoxSlot(bool checkState);
 public:
 	void buttonSweep(float x, float y, float z, float l);
 

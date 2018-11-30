@@ -10,6 +10,18 @@
     <height>700</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1046</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1046</width>
+    <height>700</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MiniCAD</string>
   </property>
@@ -267,13 +279,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="OutLoopButton_Reset">
-        <property name="text">
-         <string>Reset</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="2">
        <widget class="QPushButton" name="InLoopButton_Add">
         <property name="text">
@@ -408,6 +413,22 @@
     </property>
     <property name="text">
      <string>Subface Point : </string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_tips">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>520</y>
+      <width>171</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tips:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

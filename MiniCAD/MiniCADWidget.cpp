@@ -196,21 +196,6 @@ void MiniCADWidget::wheelEvent(QWheelEvent * wheelEvent)
 	update();
 }
 
-void MiniCADWidget::onDrawLinesCheckBoxSlot(bool checkState) {
-	makeCurrent();
-	ifDrawLines = checkState;
-	modeler.setupLineData();
-	update();
-}
-
-void MiniCADWidget::onDrawFacesCheckBoxSlot(bool checkState)
-{
-	makeCurrent();
-	ifDrawFace = checkState;
-	modeler.setupFaceData();
-	update();
-}
-
 void MiniCADWidget::buttonSweep(float x, float y, float z, float l)
 {
 	qDebug() << "		x : " << x << " y : " << y << " z : " << z << "l : " << l;

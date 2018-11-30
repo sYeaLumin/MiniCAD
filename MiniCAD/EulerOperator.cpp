@@ -27,12 +27,12 @@ void EulerOperator::sweep(shared_ptr<Face>& face, Point dir, float dist)
 		Point newSweepP = startSweepP;
 		Point lastSweepP;
 		shared_ptr<HalfEdge> tmp = currLoop->lHalfEdges;
-		for (; tmp->next != currLoop->lHalfEdges; tmp = tmp->next) {
-			qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
-		}
-		qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+		//for (; tmp->next != currLoop->lHalfEdges; tmp = tmp->next) {
+			//qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+		//}
+		//qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
 		mev(currV->p, newSweepP, currLoop);
-		qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
+		//qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
 		do
 		{
 			prevHE = currHE;
@@ -43,8 +43,8 @@ void EulerOperator::sweep(shared_ptr<Face>& face, Point dir, float dist)
 			newSweepP = currV->p + sweepLine;
 			mev(currV->p, newSweepP, currLoop);
 			mef(lastSweepP, newSweepP, currLoop);
-			qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
-			qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
+			//qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
+			//qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
 		} while (nextHE->startVertex != startV);
 		if (ifOutLoop) {
 			ifOutLoop = false;
@@ -82,12 +82,12 @@ shared_ptr<Loop> EulerOperator::_sweep(shared_ptr<Loop>& currLoop, Point dir, fl
 	Point lastSweepP;
 
 	shared_ptr<HalfEdge> tmp = currLoop->lHalfEdges;
-	for (; tmp->next != currLoop->lHalfEdges; tmp = tmp->next) {
-		qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
-	}
-	qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+	//for (; tmp->next != currLoop->lHalfEdges; tmp = tmp->next) {
+		//qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
+	//}
+	//qDebug() << tmp->heID << " : " << tmp->startVertex->vID;
 	mev(currV->p, newSweepP, currLoop);
-	qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
+	//qDebug() << "FUNC sweep : currLoop->lHalfEdges ID " << currHE->heID;
 	do
 	{
 		prevHE = currHE;
@@ -98,8 +98,8 @@ shared_ptr<Loop> EulerOperator::_sweep(shared_ptr<Loop>& currLoop, Point dir, fl
 		newSweepP = currV->p + sweepLine;
 		mev(currV->p, newSweepP, currLoop);
 		mef(lastSweepP, newSweepP, currLoop);
-		qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
-		qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
+		//qDebug() << "FUNC sweep : currHE ID " << currHE->heID;
+		//qDebug() << "FUNC sweep : nextHE ID " << nextHE->heID;
 	} while (nextHE->startVertex != startV);
 
 	return mef(newSweepP, startSweepP, currLoop);
@@ -128,13 +128,13 @@ shared_ptr<HalfEdge> EulerOperator::mev(const Point& p1, const Point& p2, shared
 		qDebug() << "FUNC mev : Can't find vertex1 in Solid " << nowSolid->sID;
 		return nullptr;
 	}
-	qDebug() << "FUNC mev : Find vertex1 in Solid " << nowSolid->sID << " With ID " << v1->vID;
+	//qDebug() << "FUNC mev : Find vertex1 in Solid " << nowSolid->sID << " With ID " << v1->vID;
 	shared_ptr<Edge> newEdge = make_shared<Edge>();
 	shared_ptr<HalfEdge> he1 = make_shared<HalfEdge>();
 	shared_ptr<HalfEdge> he2 = make_shared<HalfEdge>();
 	shared_ptr<Vertex> v2 = make_shared<Vertex>(p2);
-	qDebug() << "FUNC mev : New HalfEdge he1 ID " << he1->heID;
-	qDebug() << "FUNC mev : New HalfEdge he2 ID " << he2->heID;
+	//qDebug() << "FUNC mev : New HalfEdge he1 ID " << he1->heID;
+	//qDebug() << "FUNC mev : New HalfEdge he2 ID " << he2->heID;
 	//»·½Ó
 	he1->next = he2;
 	he2->prev = he1;
@@ -190,13 +190,13 @@ shared_ptr<Loop> EulerOperator::mef(const Point& p1, const Point& p2, shared_ptr
 		qDebug() << "FUNC mef : Can't find vertex1 in Loop " << lp->lID;
 		return nullptr;
 	}
-	qDebug() << "FUNC mef : heInsert1 ID " << heInsert1->heID;
+	//qDebug() << "FUNC mef : heInsert1 ID " << heInsert1->heID;
 	shared_ptr<HalfEdge> heInsert2 = lp->findHE(v2);
 	if (!heInsert2) {
 		qDebug() << "FUNC mef : Can't find vertex2 in Loop " << lp->lID;
 		return nullptr;
 	}
-	qDebug() << "FUNC mef : heInsert2 ID " << heInsert2->heID;
+	//qDebug() << "FUNC mef : heInsert2 ID " << heInsert2->heID;
 
 	shared_ptr<Face> newFace = make_shared<Face>();
 	shared_ptr<Loop> newLoop = make_shared<Loop>();

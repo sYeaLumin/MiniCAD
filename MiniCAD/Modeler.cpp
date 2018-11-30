@@ -437,8 +437,6 @@ void Modeler::testModelCubeWithHole3()
 	sweepLoopList.push_back(inLoop21);
 
 	//eulerOP.sweep(sweepLoopList, Point(0, 0, 1.0), 1.0);
-
-	qDebug() << "Finish !";
 }
 
 void Modeler::testModel()
@@ -470,7 +468,6 @@ void Modeler::testModel()
 		swapUpLinkForLoop(inLoop1, inLoop2);
 		sweepLoopList.push_back(inLoop1);
 	}
-	qDebug() << "Finish !";
 }
 
 void Modeler::testModelData()
@@ -480,7 +477,6 @@ void Modeler::testModelData()
 	subFace.push_back(Point(-1.0, 1.0, -0.5));
 	subFace.push_back(Point(-1.0, -1.0, -0.5));
 	subFace.push_back(Point(1.0, -1.0, -0.5));
-	subFace.push_back(Point(1.2, 0.0, -0.5));
 
 	subHoles.clear();
 	subHoleCurr.clear();
@@ -493,7 +489,7 @@ void Modeler::testModelData()
 	subHoleCurr.clear();
 	subHoleCurr.push_back(Point(0.75, 0.75, -0.5));
 	subHoleCurr.push_back(Point(0.5, 0.75, -0.5));
-	//subHoleCurr.push_back(Point(0.4, 0.5, -0.5)); 
+	subHoleCurr.push_back(Point(0.4, 0.5, -0.5)); 
 	subHoleCurr.push_back(Point(0.5, -0.25, -0.5));
 	subHoleCurr.push_back(Point(0.75, -0.25, -0.5));
 	subHoleCurr.push_back(Point(0.85, 0.0, -0.5));
@@ -502,6 +498,6 @@ void Modeler::testModelData()
 	subHoleCurr.clear();
 	subHoleCurr.push_back(Point(0.2, 0.55, -0.5));
 	subHoleCurr.push_back(Point(-0.3, 0.8, -0.5));
-	subHoleCurr.push_back(Point(-0.6, 0.2, -0.5)); //
+	subHoleCurr.push_back(Point(-0.6, 0.2, -0.5)); 
 	//subHoles.push_back(subHoleCurr);
 }

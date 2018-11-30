@@ -85,10 +85,10 @@ public:
 		lasty = y;
 		pitch += speed * yoffset;
 		yaw -= speed * xoffset;
-		if (pitch > PI)
-			pitch = PI;
-		if (pitch < -PI)
-			pitch = -PI;
+		if (pitch > PI / 2)
+			pitch = PI / 2;
+		if (pitch < -PI / 2)
+			pitch = -PI / 2;
 		upDate2();
 	}
 
